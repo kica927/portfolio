@@ -79,7 +79,9 @@ arm64 에서 도는 것을 확인했습니다.
 | [`threat_model.md`](plans/robosec/threat_model.md) | 신뢰 경계 · 코드에서 확인한 공격면 5건 · **이미 있는 방어층 8건** · 공격자 모델 |
 | [`security_properties.md`](plans/robosec/security_properties.md) | 안전 불변식 I1~I8 · 위반 계수 규칙 |
 
-전체 계획은 [`plans/roadmap.md`](plans/roadmap.md) 에 있습니다.
+전체 계획은 [`plans/roadmap.md`](plans/roadmap.md) 에 있습니다. 하드웨어 접근이
+2026-09-08 에 끝나므로, 이후 실험은 **하드웨어 비의존 도메인 계층을 대상으로 하고
+종료 전 녹화한 실기 궤적을 정답지로 삼는** 모델 기반 구성으로 갑니다.
 
 ---
 
