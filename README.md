@@ -36,6 +36,16 @@ CI 가 매 push 마다 Fake 어댑터로 전 미션 파이프라인 실행
 → 코드 [`grippers-intel/grippers`](https://github.com/grippers-intel/grippers) ·
 [개인 미러](https://github.com/kica927/grippers)
 
+### 👁️ [Grippers 인지 파이프라인 — 합성 데이터 → 엣지 추론](projects/grippers-perception.md)
+*2026 · 팀 3인 · Intel AI Festival 중간보고*
+
+실사진 **0장**. Houdini 로 장면을 절차적으로 생성해 라벨까지 자동으로 뽑고,
+Intel Geti → OpenVINO → **Hailo-10H** 로 엣지까지 내렸습니다. 검출을 그대로
+믿지 않기 위해 신뢰도와 **독립인** 화면위치 게이트를 붙였습니다.
+
+Hailo **76.5 FPS** (CPU 폴백 14.3, 요구치 5.0) · 210초 녹화 실측 **검출 12개 중
+통과 0개** — 검출률이 아니라 게이트가 병목임을 분리해 냄
+
 ### 🍎 [grippers-host-mac — Apple Silicon 이식](projects/grippers-host-mac.md)
 *2026 · 단독*
 
