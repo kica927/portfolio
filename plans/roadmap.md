@@ -43,6 +43,9 @@ C → CS:APP → OSTEP → Security → Binary Analysis → Fuzzing
 |---|---|---|
 | ✅ | [grippers](../projects/grippers.md) | 완료 — 실기 검증까지 |
 | ✅ | [grippers-host-mac](../projects/grippers-host-mac.md) | 완료 |
+| ✅ | [Immortan 자율주행](../projects/immortan-self-driving.md) | 🥇 1등 (2026-07) |
+| ✅ | [Geti F1 분류](../projects/geti-f1-classification.md) | 58% → 91% (2026-08) |
+| ✅ | [LeRobot 모방학습](../projects/lerobot-imitation.md) | 파이프라인 동작 (2026-08) |
 | ✅ | [5G/UDP 프로토타입](../projects/5g-udp-prototype.md) | 2023 (코드 비공개) |
 | ✅ | [Pell 방정식 연구](../projects/pell-equations.md) | 2022 |
 | 🔴 | **[로봇 마지막 10일 수집](2026-09-08-capture.md)** | **~2026-09-08 · 지금 최우선** |

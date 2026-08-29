@@ -46,6 +46,32 @@ arm64 에서 도는 것을 확인했습니다.
 
 → 코드 [`kica927/grippers-host-mac`](https://github.com/kica927/grippers-host-mac)
 
+### 🏎️ [Immortan — 자율주행 대회 🥇 1등](projects/immortan-self-driving.md)
+*2026 · 팀 6인 · 과정 내 대회*
+
+MentorPi 메카넘 로봇으로 차선추종 · 코너링 · 횡단보도 · 신호등 · 우회전 · 주차를
+자율 수행. **우선순위를 조건문이 아니라 메인 루프 구조로** 보장했습니다 —
+정지 판단이 차선추종보다 먼저 오므로 *"멈출 이유가 없을 때만 달린다"* 가
+코드 배치로 강제됩니다.
+
+**전 브랜치 430커밋 중 80건** · `kica927/right` 브랜치 +695/−319줄
+
+→ 코드 [`grippers-intel/Immortan-Project`](https://github.com/grippers-intel/Immortan-Project)
+
+### 🔬 [Intel Geti — F1 차량 팀 분류](projects/geti-f1-classification.md)
+*2026 · 단독*
+
+같은 400장으로 **Detection 58% → Segmentation 91%.** 데이터를 늘려서가 아니라
+**라벨 형태만 바꿔** 얻은 33%p 입니다. "데이터가 부족하다"는 가설이 틀렸다는 것을
+변수를 하나만 바꿔 확인했습니다.
+
+### 🦾 [LeRobot — SO-ARM101 모방학습](projects/lerobot-imitation.md)
+*2026 · 단독*
+
+리더암 시범을 녹화해 **ACT · SmolVLA(VLA)** 정책을 학습하고, 팔로워암을 단독
+구동. record → train → rollout 전 구간이 돕니다.
+*(성공률은 측정하지 못했고, 그 점을 한계로 적었습니다.)*
+
 ### 📡 [5G/UDP 종단간 통신 프로토타입](projects/5g-udp-prototype.md)
 *2023 · 쉴드론 인턴*
 
