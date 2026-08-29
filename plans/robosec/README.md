@@ -1,0 +1,74 @@
+# RoboSec — State-aware Security Testing for ROS 2 Robotic Systems
+
+> 🟡 **설계 단계입니다.** 실체를 갖추면 별도 저장소로 분리합니다.
+> 지금은 위협 모델과 안전 불변식만 있습니다 — 그 둘을 먼저 굳히는 것이
+> 이 단계의 목표입니다.
+
+> **연구 질문**
+>
+> 조작되거나 손상된 Host 명령이 ROS 2 기반 로봇 시스템에서
+> **안전하지 않은 상태 전이**를 일으킬 수 있는가?
+
+---
+
+## 왜 이 프로젝트인가
+
+기존 fuzzer 는 **crash 를 찾습니다.** 로봇 제어 소프트웨어에서 crash 는 오히려
+안전한 실패입니다 — 프로세스가 죽으면 명령이 끊기고 워치독이 돕니다.
+
+정말 위험한 것은 **crash 없이 계속 도는 상태**입니다. 파지 중인데 바퀴가
+돌거나, STOP 을 받았는데 속도가 남아 있거나, 낡은 명령이 새 명령처럼 실행되는
+것. 프로세스는 멀쩡하고 로그도 깨끗한데 로봇이 잘못 움직입니다.
+
+**RoboSec 는 crash 가 아니라 물리·상태 안전 불변식의 위반을 찾습니다.**
+
+## 대상 시스템
+
+제가 직접 만든 실제 시스템입니다 — 문헌의 예제가 아닙니다.
+
+- [`kica927/grippers`](https://github.com/kica927/grippers) — Raspberry Pi 5 ·
+  ROS 2 Humble · 메카넘 베이스 + SO-ARM101 · 미션 FSM 7상태
+- [`kica927/grippers-host-mac`](https://github.com/kica927/grippers-host-mac) —
+  Host PC (오버헤드 인식 · 경로 계획 · 명령 권한)
+
+시스템을 만든 사람이 그 시스템의 위협 모델을 쓴다는 것이 이 프로젝트의 전제
+입니다. **어디에 방어층이 있고 왜 거기 있는지 알고 시작합니다.**
+
+## 문서
+
+| 문서 | 내용 |
+|---|---|
+| [`threat_model.md`](threat_model.md) | 자산 · 신뢰 경계 · 공격자 능력 · 공격면 |
+| [`security_properties.md`](security_properties.md) | 안전/보안 불변식 — 무엇을 위반으로 셀 것인가 |
+
+`experiments/` · `results/` · `paper/` 는 저장소 분리 시점에 만듭니다.
+
+## 구조 (예정)
+
+```
+robosec/
+├── README.md
+├── threat_model.md
+├── security_properties.md
+├── protocol/          # Host↔Pi UDP/JSON 규격의 독립 구현
+├── harness/           # SUT 를 띄우고 관측하는 층
+├── fuzz/              # 상태 인지 입력 생성기
+├── fault-injection/   # 손실 · 중복 · 재정렬 · 지연
+├── experiments/
+├── results/
+└── paper/
+```
+
+## 일정
+
+harness 착수 2027-01 · 실험 2027-02 · technical report v1 2027-02.
+
+**측정하지 않은 숫자는 쓰지 않습니다.**
+
+## 윤리 · 범위
+
+**제가 소유한 장비, 격리된 실험망에서만 수행합니다.** 대상 시스템은 제가 만든
+캡스톤 로봇이고, 실험은 외부 네트워크와 분리된 상태에서 돕니다. 타인의 로봇이나
+공개 배포된 ROS 2 시스템을 대상으로 하지 않습니다.
+
+발견된 문제는 먼저 `grippers` 저장소에 수정으로 반영하고, 그 뒤에 결과를 씁니다.
