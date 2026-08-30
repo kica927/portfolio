@@ -115,28 +115,35 @@ MuJoCo 시뮬 제어 → 규칙기반 비전 Pick&Place(공 분류·컵 정렬) 
 
 ---
 
-## 다음 — [RoboSec](plans/robosec/)
+## 보안 — 내가 만든 로봇을 공격하고, 방어까지
 
-> 조작되거나 손상된 Host 명령이 ROS 2 기반 로봇 시스템에서 **안전하지 않은
-> 상태 전이**를 일으킬 수 있는가?
+> 조작되거나 손상된 Host 명령이 ROS 2 기반 로봇에서 **안전하지 않은 상태 전이**를
+> 일으킬 수 있는가? 기존 fuzzer 는 crash 를 찾지만, 로봇 제어에서 crash 는 오히려
+> 안전한 실패입니다 — 프로세스가 죽으면 워치독이 돕니다. 정말 위험한 것은
+> **crash 없이 계속 도는 상태**입니다.
 
-기존 fuzzer 는 crash 를 찾습니다. 로봇 제어에서 crash 는 오히려 안전한 실패입니다 —
-프로세스가 죽으면 명령이 끊기고 워치독이 돕니다. 정말 위험한 것은 **crash 없이
-계속 도는 상태**입니다.
+### 🛡️ [RoboSec — 상태·물리 안전 취약점 찾기](projects/robosec.md)
+*2026 · 단독*
 
-**RoboSec 는 crash 가 아니라 물리·상태 안전 불변식의 위반을 찾습니다.**
+내가 만든 [grippers](projects/grippers.md) 로봇의 위협 모델을 직접 쓰고, 실제 결함
+두 개를 찾았습니다. **F1(NaN 이 속도 클램프를 통과)은 패치까지**, **F2(스푸핑·재전송이
+FSM 을 움직임)는 실기로 확증**했습니다.
 
-대상은 제가 직접 만든 위 로봇 시스템입니다. 시스템을 만든 사람이 그 위협 모델을
-쓴다는 것이 전제입니다 — **어디에 방어층이 있고 왜 거기 있는지 알고 시작합니다.**
+in-process·offline·field **3중 확증**(2026-08-30 on-hardware) · baseline 19/21(발견) →
+patched 21/21(수정) · crash 가 아니라 불변식 위반을 셈
 
-| | |
-|---|---|
-| [`threat_model.md`](plans/robosec/threat_model.md) | 신뢰 경계 · 코드에서 확인한 공격면 5건 · **이미 있는 방어층 8건** · 공격자 모델 |
-| [`security_properties.md`](plans/robosec/security_properties.md) | 안전 불변식 I1~I8 · 위반 계수 규칙 |
+### 🔐 [udp-network-lab — 링크 계층 보안 하드닝](projects/udp-network-lab.md)
+*2026 · 단독*
 
-전체 계획은 [`plans/roadmap.md`](plans/roadmap.md) 에 있습니다. 하드웨어 접근이
-2026-09-08 에 끝나므로, 이후 실험은 **하드웨어 비의존 도메인 계층을 대상으로 하고
-종료 전 녹화한 실기 궤적을 정답지로 삼는** 모델 기반 구성으로 갑니다.
+RoboSec 이 찾은 F2 를 닫는 재사용 방어. **CRC 는 스푸핑을 못 막는다** — 인증은
+HMAC(사전공유키), 재전송은 시퀀스가 맡습니다. Python 레퍼런스 + C 재구현.
+
+F2 before/after: 공격 통과 **OLD 2/2 → NEW 0/2** · Atheris 1,900만+ · libFuzzer
+1,300만 회 크래시 0 · C↔Python **차등 7/7**
+
+전체 계획은 [`plans/roadmap.md`](plans/roadmap.md) · [`plans/robosec/`](plans/robosec/) 에
+있습니다. 하드웨어 접근이 2026-09-08 에 끝나므로, 이후 실험은 **종료 전 녹화한 실기
+궤적을 정답지로 삼는** 모델 기반 구성으로 갑니다.
 
 ---
 

@@ -1,0 +1,122 @@
+# RoboSec — 내가 만든 로봇의 상태·물리 안전 취약점 찾기
+
+> *2026 · 단독 · 이력(보안) 연계 트랙*
+>
+> 조작되거나 손상된 Host 명령이 ROS 2 기반 로봇에서 **안전하지 않은 상태 전이**를
+> 일으킬 수 있는가. 대상은 내가 직접 만든 [grippers](grippers.md) 로봇이다 —
+> 시스템을 만든 사람이 그 위협 모델을 쓴다는 것이 이 프로젝트의 전제다.
+
+---
+
+## Problem — crash 는 오히려 안전한 실패다
+
+기존 fuzzer 는 crash 를 찾는다. 그런데 로봇 제어에서 crash 는 **안전한** 실패에
+가깝다 — 프로세스가 죽으면 명령이 끊기고 워치독이 정지를 집행한다. 정말 위험한
+것은 **crash 없이 계속 도는 상태**다. 손상된 명령이 파서를 통과해 바퀴를 돌리거나,
+스푸핑된 명령이 상태 기계를 원치 않는 전이로 밀어 넣는 경우다.
+
+**RoboSec 는 crash 가 아니라 물리·상태 안전 불변식의 위반을 찾는다.**
+
+## Architecture — 신뢰 경계와 방어층
+
+grippers 는 Host PC(좌표·경로) 와 Raspberry Pi(물리 실행) 로 나뉘고, 둘은 UDP+JSON
+으로 말한다. 그 링크가 신뢰 경계다. 링크 규격(2026-08-26 확정)에는 **무결성·시퀀스·
+송신자 인증이 전부 없다** — 이것이 공격면의 뿌리다.
+
+검사 대상 안전 불변식(발췌):
+
+| | 불변식 |
+|---|---|
+| I1 | 파지 중 베이스는 정지한다 |
+| I2 | STOP 은 모든 속도를 0 으로 만든다 |
+| I5 | 속도 크기가 물리 한계를 넘지 않는다 |
+| I6 | 제자리회전은 정말 제자리다 (병진 혼합 금지) |
+| F | 속도는 항상 유한하다 (NaN/Inf 금지) |
+
+코드에서 확인한 방어층(D1 속도 클램프 · D2 회전 순수성 · D4 상태 게이팅 ·
+D5 손상 폐기 · D6 None≠정지)과, 공격자 모델(A1 손상 · A2 스푸핑 · A3 재전송 ·
+A4 극단값 · A5 상태 불일치)을 [`threat_model.md`](../plans/robosec/threat_model.md) 에
+정리했다. **어디에 방어가 있고 왜 거기 있는지 알고 시작한다.**
+
+검증은 세 층이다:
+- **in-process** — 순수 도메인 함수·FSM 을 Fake 어댑터로 직접 돌린다(하드웨어 0).
+- **offline** — 녹화 bag 을 JSONL 로 바꿔 불변식 스캐너로 센다.
+- **field** — 하드웨어에 실제 주입(2026-09-08 종료 전 1회, 읽기전용 tap 으로 녹화).
+
+## My Contribution
+
+공격 하네스, 인프로세스 프로브, bag→JSONL 변환기, 불변식 스캐너, 실기 RUNBOOK
+전체를 직접 설계·구현했다. 그리고 **내 로봇의 실제 결함 두 개(F1·F2)를 찾아,
+하나는 패치까지 제시**했다.
+
+## Design Decisions
+
+- **공격자는 규격만 안다.** `attacker.py` 는 grippers 를 import 하지 않는다 — 공격자
+  관점을 강제하려고 프로토콜을 독립 재구현했다.
+- **baseline 은 실기 중 절대 수정하지 않는다.** 9/8 실기 대상 코드(`ad619b9`)는
+  불변으로 두고, F1 패치는 별도 트리에서만 검증했다. 그래야 "배포본에 결함이
+  있었다"는 증거가 오염되지 않는다.
+- **발견 vs 수정을 코드로 구분한다.** 러너는 baseline(발견 present, 19/21)과
+  patched(수정, 21/21)를 **둘 다** 돌려 통과한다.
+
+## Implementation
+
+- `attacker.py` — a1~a5 주입(기본 dry-run, 실기에서만 전송).
+- `inprocess/` — `probe_parse`·`probe_motion`·`probe_fsm` 가 파서·클램프·FSM 을 각각 겨눈다.
+- `offline/invariant_check.py` — JSONL 레코드에서 I1·I2·I5·I6·F 위반을 센다(`--selftest` 6/6).
+- `run_tests.sh` — baseline/patched 이중 검증 + 실측 bag 스캔 + F2 실증까지 한 번에.
+
+## Problems & Debugging
+
+**F1 — NaN 이 클램프를 통과한다.** 증상은 프로브의 `I5 nan→유한값` 실패였다.
+원인은 `_clamp` 의 `math.copysign(min(abs(value), limit), value)` 에서 `min(nan, 0.1)`
+이 CPython 에서 **nan 을 반환**하고, `abs(nan) < EPSILON` 도 거짓이라 조기 반환도
+안 되는 것이었다. `inf` 는 `min(inf,0.1)=0.1` 로 우연히 잡히지만 nan 은 샌다.
+
+**러너의 자기모순.** 초기 러너는 baseline 을 돌리며 "F1 수정 반영됨, 21/21 기대"
+라고 단언했지만 배포본엔 수정이 없어 19/21 로 rc=1 이었다. F1 을 "고칠 결함"으로
+볼지 "문서화된 발견"으로 볼지 코드 안에서 판정이 갈렸다. baseline=발견(19/21) +
+patched=수정(21/21) 이중 검증으로 정합화했다.
+
+## Verification — 3중 확증
+
+2026-08-30, 실기 주입을 하루 앞당겨 실행하고 in-process 예측과 대조했다.
+
+- **in-process** — 프로브가 F1(nan 누출)·F2(상태와 무관한 속도 실행)를 예측.
+- **field** — `/cmd_vel` 녹화(4440 프레임)에서 nan 1프레임(a4-extreme)이 베이스
+  출력까지 도달. 스푸핑·재전송(a2·a3)은 APPROACH 상태에서 실제 전이+속도 구동.
+- **offline** — 스캐너가 같은 녹화에서 유한성 위반 1건 = 그 nan 을 독립 검출.
+
+**모델과 실물이 일치했다.**
+
+## Results
+
+- **F1(NaN 누출) — 발견 + 패치.** 배포본에 존재(19/21), 패치(비유한값→정지) 후
+  21/21. 실측 bag 유한성 위반 0. → [취약점 리포트](../plans/robosec/threat_model.md)
+- **F2(스푸핑·재전송) — 실기 확증.** 송신자 인증·시퀀스가 없어, 유효 상태를
+  스푸핑하거나 낡은 명령을 재전송하면 FSM 이 실제로 움직인다. 상태 게이팅(D4)은
+  **불법 전이만** 막을 뿐 합법 위장은 못 막는다. 이 결함의 방어는
+  [udp-network-lab](udp-network-lab.md) 에서 구현했다.
+- **하류 방어 심층 발견.** F1·F2 로 샌 값이 `/cmd_vel` 까지 갔지만 실물 바퀴는 안
+  돌았다 — 하류(기구학/STM32)가 삼켰다. 단 이는 **우연한 보호**이지 설계된 방어가
+  아니므로 도메인에서 고쳐야 한다.
+
+## Limitations
+
+- 하드웨어 접근이 **2026-09-08 에 끝난다.** 이후 실험은 녹화 bag·순수 도메인 코드로만
+  성립한다. grippers 가 Ports & Adapters 로 분리돼 하드웨어 없이 실행·테스트되는
+  것이 여기서 결정적이었다.
+- F2 는 이 저장소에서 **닫지 않는다** — 링크 계층 방어(HMAC/시퀀스)가 필요하고,
+  그것은 udp-network-lab 의 몫이다.
+- 불변식은 아직 I1·I2·I5·I6·F 다. I3·I4·I7·I8 은 실측 근거가 더 필요하다.
+
+## Future Work
+
+- [udp-network-lab](udp-network-lab.md) 로 F2 를 닫고, 녹화 bag 재생으로 before/after 확증(완료).
+- 스캐너에 I3·I4 추가, 9/8 전 녹화한 궤적을 정답지로 삼는 모델 기반 검증.
+
+---
+
+**코드**: 로컬 툴킷(비공개 검토 중) · **관련**: [grippers](grippers.md) ·
+[udp-network-lab](udp-network-lab.md) · [threat_model](../plans/robosec/threat_model.md) ·
+[security_properties](../plans/robosec/security_properties.md)
