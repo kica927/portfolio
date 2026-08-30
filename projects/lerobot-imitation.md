@@ -1,5 +1,7 @@
 # LeRobot — SO-ARM101 모방학습 (ACT · SmolVLA)
 
+> 📍 이 프로젝트는 [SO-ARM101 로봇팔 트랙](soarm-robotarm-track.md)의 한 단계입니다.
+
 > **2026-08 · 단독 · Intel Physical AI 과정 Robot Arm 모듈**
 >
 > 과제: **"테이프를 컵에 끼우기"** — 사람이 리더암으로 시범을 보이고, 그
@@ -94,7 +96,7 @@ camera2 = 측면 45° (icspring)
 ## 5. Implementation
 
 - **LeRobot** (HuggingFace) · **Intel XPU** (`--policy.device=xpu`)
-- 데이터셋 `lsy0284/tape_v1` — HuggingFace Hub 업로드 (private)
+- 데이터셋 [`kica927/redball`](https://huggingface.co/datasets/kica927/redball) — HuggingFace Hub **공개**, LeRobot v3.0 형식
 - 학습 결과 `lsy0284/act_tape` · `outputs/train/smolvla_tape`
 - 하드웨어 SO-ARM101 리더/팔로워 2대 · 웹캠 2대
 
@@ -152,9 +154,13 @@ camera2 = 측면 45° (icspring)
 |---|---|
 | 파이프라인 | record → train → rollout **전 구간 동작** |
 | 정책 | ACT · SmolVLA 두 가지 학습 |
-| 데이터셋 | HuggingFace Hub 업로드 완료 |
+| 데이터셋 | HuggingFace Hub 공개 — [`kica927/redball`](https://huggingface.co/datasets/kica927/redball) |
+| 수집 규모 | **15 에피소드 · 8,645 프레임 · 30 fps** (`robot_type: so_follower`) |
+| 텔레오퍼레이션 | leader–follower 이중 팔, 관절별 캘리브레이션(homing_offset·range) |
 
-> ⚠️ **정량 성공률은 측정하지 않았습니다.** 아래 한계 참고.
+> 데이터 **수집 규모는 실측**입니다(위 표, `meta/info.json`). 다만 **정량 성공률은
+> 측정하지 않았습니다** — 아래 한계 참고. 둘은 다른 값입니다: 얼마나 모았는가와
+> 정책이 얼마나 성공하는가.
 
 ---
 
@@ -162,7 +168,8 @@ camera2 = 측면 45° (icspring)
 
 - 🔴 **성공률을 재지 않았습니다.** "된다"는 확인했지만 몇 번 중 몇 번인지
   기록이 없습니다. **이 저장소의 원칙(측정하지 않은 숫자는 쓰지 않는다)에
-  따라 성능 수치를 적지 않습니다**
+  따라 성능 수치를 적지 않습니다.** (수집 규모 15ep·8,645프레임은 데이터셋
+  메타에 남아 있어 인용했지만, 그것은 성공률이 아닙니다.)
 - 🔴 **v2(3색)까지 못 갔습니다** — v1(빨강 하나)에서 하드웨어 사용 기간이
   끝났습니다
 - 🟡 ACT 와 SmolVLA 를 **같은 조건으로 비교하지 않았습니다**

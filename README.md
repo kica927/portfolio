@@ -82,6 +82,14 @@ MentorPi 메카넘 로봇으로 차선추종 · 코너링 · 횡단보도 · 신
 구동. record → train → rollout 전 구간이 돕니다.
 *(성공률은 측정하지 못했고, 그 점을 한계로 적었습니다.)*
 
+### 🦾 [SO-ARM101 로봇팔 트랙 — 시뮬에서 모방학습까지](projects/soarm-robotarm-track.md)
+*2026 · Intel 로봇팔 교육 · 단계적 진행*
+
+MuJoCo 시뮬 제어 → 규칙기반 비전 Pick&Place(공 분류·컵 정렬) → **LeRobot 모방학습**
+([`kica927/redball`](https://huggingface.co/datasets/kica927/redball) 공개, 15ep·8,645프레임)
+→ VLA(미도달). 한 팔로 같은 도구를 쌓아 올린 한 줄기입니다. 아래 컵 정렬·LeRobot 은
+이 트랙의 개별 단계 문서입니다.
+
 ### 🥤 [색상별 컵 정렬 — SO-ARM101 미니 프로젝트](projects/cup-sorting.md)
 *2026 · 로봇팔 교육 FINAL 과제 · 안전/시스템 담당*
 

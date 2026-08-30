@@ -1,5 +1,7 @@
 # 색상별 컵 정렬 — SO-ARM101 로봇팔 미니 프로젝트
 
+> 📍 이 프로젝트는 [SO-ARM101 로봇팔 트랙](soarm-robotarm-track.md)의 한 단계입니다.
+
 > Intel Physical AI 로봇팔 교육의 **FINAL 미니 프로젝트**. 색이 섞여 한 스택으로
 > 쌓인 컵 6개(Red·Blue·Yellow 각 2개)를, 카메라로 맨 위 컵의 색을 인식해
 > 색상별 스택 3곳으로 다시 쌓는다.
