@@ -148,6 +148,17 @@ HMAC(사전공유키), 재전송은 시퀀스가 맡습니다. Python 레퍼런�
 F2 before/after: 공격 통과 **OLD 2/2 → NEW 0/2** · Atheris 1,900만+ · libFuzzer
 1,300만 회 크래시 0 · C↔Python **차등 7/7**
 
+### 🔌 [임베디드 시리얼 벤치 — Arduino 실기 3종](projects/embedded-serial-bench.md)
+*2026 · 단독 · 실기 벤치*
+
+로봇 작업의 세 갈래를 실제 Arduino Uno 위에서 물리 계층까지 확인·정량화했습니다.
+**(A) 시리얼 하드닝+퍼징** — 프레이밍을 MCU C 로 포팅, 손상·재전송 거부 재현
+(HMAC 은 상위로 미루는 분담을 실측 크기로 논증) · **(B) E-STOP 반응지연** — 입력→ISR
+**9.1 µs**(500/500) · **(C) 링크 특성화** — RTT·처리량을 payload·baud 로 스윕,
+**~2.5 ms 바닥은 baud 아닌 USB-CDC 오버헤드**임을 분리.
+
+UDP · 로봇 · **임베디드**가 한 보안 줄기로 닫히고, 안전지연·통신은 곡선으로 채웠습니다.
+
 전체 계획은 [`plans/roadmap.md`](plans/roadmap.md) · [`plans/robosec/`](plans/robosec/) 에
 있습니다. 하드웨어 접근이 2026-09-08 에 끝나므로, 이후 실험은 **종료 전 녹화한 실기
 궤적을 정답지로 삼는** 모델 기반 구성으로 갑니다.
