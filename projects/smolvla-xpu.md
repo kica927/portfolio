@@ -53,6 +53,6 @@ VLA는 보통 CUDA 전제로 이야기되지만, 이 트랙의 학습 자원은 
 (1) 실기 롤아웃으로 성공률 측정, (2) 멀티태스크·다양한 언어 지시로 데이터 확장,
 (3) ACT vs SmolVLA 동일 데이터 비교(오프라인 지표).
 
-## 재현
-데스크탑 `~/smolvla_ft.sh` (XPU 파인튜닝 명령). 체크포인트는 용량상 저장소 제외
-(`~/smolvla_redball_ft/checkpoints/`).
+## 산출물 · 재현
+- **체크포인트(공개):** [`kica927/smolvla_redball_ft`](https://huggingface.co/kica927/smolvla_redball_ft) — HF Hub 에 push.
+- 학습 스크립트: `code/smolvla-xpu/smolvla_ft.sh` (XPU 파인튜닝 명령).
