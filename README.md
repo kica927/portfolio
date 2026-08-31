@@ -104,6 +104,20 @@ MuJoCo 시뮬 제어 → 규칙기반 비전 Pick&Place(공 분류·컵 정렬) 
 → VLA(미도달). 한 팔로 같은 도구를 쌓아 올린 한 줄기입니다. 아래 컵 정렬·LeRobot 은
 이 트랙의 개별 단계 문서입니다.
 
+### 🦾 [MoveIt 2 — SO-ARM101 모션 플래닝 (시뮬)](projects/moveit-so101.md)
+*2026 · 단독 · 로봇팔 트랙 확장*
+
+SO-101 URDF 를 MoveIt 2(ROS 2 Jazzy)로 올려 OMPL·Pilz 충돌회피 플래닝까지 되는 config 를
+직접 작성하고, **실기 팔 없이 헤드리스로 검증** — `move_group` 전 서비스 로드 · 컨트롤러 3종
+"Configured and activated" · `You can start planning now!`. mock 하드웨어라 실기 구동은 향후 과제.
+
+### 🧠 [SmolVLA — Intel Arc(XPU)에서 VLA 파인튜닝](projects/smolvla-xpu.md)
+*2026 · 단독 · 로봇팔 트랙 확장(오프라인)*
+
+트랙에서 "미도달"로 뒀던 VLA 를, 실기 없이 오프라인 파인튜닝으로 돌림. **NVIDIA 아닌 Intel
+Arc B580(XPU)** 에서 SmolVLA(450M) 가 수렴 — loss **0.615→0.096**, 6000 step ≈ 12분.
+"VLA=CUDA 필수"를 실측 반증. 롤아웃(실기 추론)은 팔 없어 미수행.
+
 ### 🥤 [색상별 컵 정렬 — SO-ARM101 미니 프로젝트](projects/cup-sorting.md)
 *2026 · 로봇팔 교육 FINAL 과제 · 안전/시스템 담당*
 
