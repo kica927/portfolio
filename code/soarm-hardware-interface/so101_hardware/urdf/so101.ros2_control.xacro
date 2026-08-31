@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!-- so101_moveit_config 의 mock ros2_control 을 이걸로 교체한다.
+     use_mock:=true 면 GenericSystem(기존 데모), false 면 실물 STS3215. -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="so101_ros2_control" params="name use_mock:=false port:=/dev/ttyACM0">
+    <ros2_control name="${name}" type="system">
+      <hardware>
+        <xacro:if value="${use_mock}">
+          <plugin>mock_components/GenericSystem</plugin>
+        </xacro:if>
+        <xacro:unless value="${use_mock}">
+          <plugin>so101_hardware/STS3215System</plugin>
+          <param name="port">${port}</param>
+          <param name="baud">1000000</param>
+        </xacro:unless>
+      </hardware>
+      <!-- 조인트 5개 + 그리퍼. id = STS3215 서보 ID(1..6). -->
+      <xacro:macro name="j" params="jname sid">
+        <joint name="${jname}">
+          <param name="id">${sid}</param>
+          <command_interface name="position"/>
+          <state_interface name="position"/>
+        </joint>
+      </xacro:macro>
+      <xacro:j jname="shoulder_pan"  sid="1"/>
+      <xacro:j jname="shoulder_lift" sid="2"/>
+      <xacro:j jname="elbow_flex"    sid="3"/>
+      <xacro:j jname="wrist_flex"    sid="4"/>
+      <xacro:j jname="wrist_roll"    sid="5"/>
+      <xacro:j jname="gripper"       sid="6"/>
+    </ros2_control>
+  </xacro:macro>
+</robot>

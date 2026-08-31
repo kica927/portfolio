@@ -111,6 +111,14 @@ SO-101 URDF 를 MoveIt 2(ROS 2 Jazzy)로 올려 OMPL·Pilz 충돌회피 플래�
 직접 작성하고, **실기 팔 없이 헤드리스로 검증** — `move_group` 전 서비스 로드 · 컨트롤러 3종
 "Configured and activated" · `You can start planning now!`. mock 하드웨어라 실기 구동은 향후 과제.
 
+### 🦾 [SO-ARM101 실물 ros2_control — STS3215 하드웨어 인터페이스](projects/soarm-hardware-interface.md)
+*2026 · 단독 · 로봇팔 트랙*
+
+mock 으로 도는 MoveIt 을 **실물 SO-ARM101** 로 잇는 ros2_control `SystemInterface`.
+Feetech STS3215 half-duplex UART 를 termios 로 직접 포팅(PING/READ/WRITE · rad↔counts ·
+on_activate 토크ON+현재위치 초기화). **데스크탑 colcon 빌드 성공** · mock↔실물 xacro 전환.
+*(실물 구동은 하드웨어 마감으로 미검증 — 브링업 체크리스트를 한계로 명시.)*
+
 ### 🧠 [SmolVLA — Intel Arc(XPU)에서 VLA 파인튜닝](projects/smolvla-xpu.md)
 *2026 · 단독 · 로봇팔 트랙 확장(오프라인)*
 
@@ -124,6 +132,13 @@ Arc B580(XPU)** 에서 SmolVLA(450M) 가 수렴 — loss **0.615→0.096**, 6000
 색이 섞인 컵 6개를 카메라로 색 인식해 색상별로 재적재. **안전 계층**을 맡았습니다 —
 긴급정지(전 서보 토크 OFF), **지연 시 새 명령 정지**(모르면 안 움직임),
 도달 불가 좌표 거부. grippers 로 이어지는 안전 사고가 여기서 시작됐습니다.
+
+### 📶 [robot-link-timing — 분산 로봇 링크 타이밍 계측](projects/robot-link-timing.md)
+*2026 · 단독 · 통신 축*
+
+UDP(Host↔Pi)·시리얼(Pi↔STM32)의 지연·지터·클럭오프셋·손실을 계측. NTP식 4-타임스탬프로
+편도·오프셋을 분리. **UDP 루프백 500/500(RTT 0.265 ms)·맥↔Uno 기준선 1000/1000(7.08 ms)** 검증.
+*(실기 Pi↔STM32 부하 스윕은 하드웨어 마감으로 미완 — 한계로 명시.)*
 
 ### 📡 [5G/UDP 종단간 통신 프로토타입](projects/5g-udp-prototype.md)
 *2023 · 쉴드론 인턴*

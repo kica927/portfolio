@@ -1,0 +1,7 @@
+<library path="so101_hardware">
+  <class name="so101_hardware/STS3215System"
+         type="so101_hardware::STS3215System"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>SO-ARM101 STS3215 Feetech 서보 버스용 ros2_control SystemInterface.</description>
+  </class>
+</library>
