@@ -96,4 +96,4 @@ RoboSec 에서 확증된 F2 공격을 이 방어로 닫는 것을 **실제 FSM �
 
 ---
 
-**관련**: [RoboSec](robosec.md) · [grippers](grippers.md) · [5G/UDP 프로토타입](5g-udp-prototype.md)
+**코드**: [`code/udp-network-lab/`](../code/udp-network-lab/) · **관련**: [RoboSec](robosec.md) · [grippers](grippers.md) · [5G/UDP 프로토타입](5g-udp-prototype.md)

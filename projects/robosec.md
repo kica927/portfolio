@@ -117,6 +117,6 @@ patched=수정(21/21) 이중 검증으로 정합화했다.
 
 ---
 
-**코드**: 로컬 툴킷(비공개 검토 중) · **관련**: [grippers](grippers.md) ·
+**코드**: [`code/robosec/`](../code/robosec/) · **관련**: [grippers](grippers.md) ·
 [udp-network-lab](udp-network-lab.md) · [threat_model](../plans/robosec/threat_model.md) ·
 [security_properties](../plans/robosec/security_properties.md)

@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.hypothesis/
+native/fuzz_decode
+native/sf_selftest
+native/vectors.txt
+native/*.o
+crash-*
+*.dSYM/

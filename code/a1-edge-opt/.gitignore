@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+_a1_ir*/
+*_openvino_model/
