@@ -69,6 +69,7 @@ RoboSec 에서 확증된 F2 공격을 이 방어로 닫는 것을 **실제 FSM �
 | **F2 실증** | 실제 `BaselineMission` FSM 재생 | 공격 통과 **OLD 2/2 → NEW 0/2** (BAD_HMAC·REPLAY), 정상 명령은 양쪽 통과 |
 | 퍼징(Python) | Atheris ×2 | **1,495만 + 402만 회 / 크래시 0** |
 | 퍼징(C) | libFuzzer + ASan | **1,302만 회 / 크래시 0** |
+| 퍼징(C·2번째 도구) | AFL++ (persistent, ASan) | **735만 회 / 122k exec·s⁻¹ / 크래시·행 0** (2026-08-31, 맥) |
 | 교차 검증 | C vs Python 레퍼런스 | **7/7 차등 일치** |
 
 **F2 before/after 가 핵심 산출물이다** — RoboSec 실기에서 확증된 그 공격이,
@@ -91,7 +92,7 @@ RoboSec 에서 확증된 F2 공격을 이 방어로 닫는 것을 **실제 FSM �
 ## Future Work
 
 - grippers 에 실제 수신 어댑터로 통합(Ports & Adapters 라 교체가 국소적이다).
-- C 디코더를 **AFL++** 로도 돌려 libFuzzer 와 커버리지 비교.
+- ~~C 디코더를 AFL++ 로도~~ **완료** — AFL++ persistent 로 735만 회(크래시 0, bitmap 39%). 두 퍼저 모두 무결점.
 - 키 회전·재생성 절차 설계.
 
 ---

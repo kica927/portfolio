@@ -234,8 +234,9 @@ OpenCV · OpenVINO · ArUco · 온디바이스 추론 (Hailo)
 Git · pytest · CI · GDB · 계측 기반 디버깅
 ```
 
-**아직 쓰지 않은 도구는 여기 적지 않습니다.** ASan/UBSan · libFuzzer · AFL++ ·
-Ghidra 는 [로드맵](plans/roadmap.md)의 일정에 있고, 실제로 쓴 뒤에 올립니다.
+**아직 쓰지 않은 도구는 여기 적지 않습니다.** UBSan · Ghidra 는
+[로드맵](plans/roadmap.md)의 일정에 있고, 실제로 쓴 뒤에 올립니다. libFuzzer·AFL++·ASan 은
+[udp-network-lab](projects/udp-network-lab.md) 에서 실제로 썼습니다(각각 1,302만·735만 회, 크래시 0).
 
 ---
 

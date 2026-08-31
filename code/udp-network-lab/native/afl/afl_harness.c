@@ -10,6 +10,7 @@
  */
 #include <stddef.h>
 #include <stdint.h>
+#include <unistd.h>   /* read() — __AFL_FUZZ_TESTCASE_LEN 매크로가 쓴다 */
 #include "secure_framing.h"
 
 static const uint8_t KEY[] = "grippers-preshared-key-2026";
