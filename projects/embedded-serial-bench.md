@@ -18,7 +18,7 @@
 |---|---|---|---|
 | A | 시리얼 링크 하드닝 + 퍼징 | [udp-network-lab](udp-network-lab.md) · [RoboSec](robosec.md) | 프레이밍을 실제 MCU C 로 포팅, 손상·재전송 거부를 물리 시리얼에서 재현 |
 | B | E-STOP 반응지연 | [RoboSec](robosec.md) · [컵 정렬](cup-sorting.md) | 긴급정지 사슬의 **가장 빠른 끝**(입력→ISR)을 실측 |
-| C | USB-시리얼 링크 특성화 | [robot-link-timing](#) · [5G/UDP](5g-udp-prototype.md) | RTT·처리량을 payload·baud 두 축으로 스윕, 병목을 숫자로 가름 |
+| C | USB-시리얼 링크 특성화 | robot-link-timing · [5G/UDP](5g-udp-prototype.md) | RTT·처리량을 payload·baud 두 축으로 스윕, 병목을 숫자로 가름 |
 
 공통 도구: `arduino-cli`(빌드·플래시) + `pyserial` 호스트 프로브. 맥 ↔ Uno(CH340).
 
