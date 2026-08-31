@@ -136,8 +136,8 @@ MuJoCo 시뮬 제어 → 규칙기반 비전 Pick&Place(공 분류·컵 정렬) 
 두 개를 찾았습니다. **F1(NaN 이 속도 클램프를 통과)은 패치까지**, **F2(스푸핑·재전송이
 FSM 을 움직임)는 실기로 확증**했습니다.
 
-in-process·offline·field **3중 확증**(2026-08-30 on-hardware) · baseline 19/21(발견) →
-patched 21/21(수정) · crash 가 아니라 불변식 위반을 셈
+in-process·offline·field **3중 확증**(2026-08-30) + **2차 독립 재현**(2026-08-31, 결과 일치) ·
+baseline 19/21(발견) → patched 21/21(수정) · 정상 대조군 위반 0 · crash 가 아니라 불변식 위반을 셈
 
 ### 🔐 [udp-network-lab — 링크 계층 보안 하드닝](projects/udp-network-lab.md)
 *2026 · 단독*
