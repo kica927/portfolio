@@ -46,6 +46,13 @@ Intel Geti → OpenVINO → **Hailo-10H** 로 엣지까지 내렸습니다. 검�
 Hailo **76.5 FPS** (CPU 폴백 14.3, 요구치 5.0) · 210초 녹화 실측 **검출 12개 중
 통과 0개** — 검출률이 아니라 게이트가 병목임을 분리해 냄
 
+### ⚡ [A1 — best.pt OpenVINO 엣지 최적화](projects/a1-edge-opt.md)
+*2026 · 단독 · 인텔 교육 스택 부각*
+
+같은 검출기를 OpenVINO INT8 로 양자화해 **크기 3.2배↓ · mAP −0.46pp**(정확도 손실 없음).
+지연은 하드웨어에 종속 — 맥 arm64 CPU 에선 INT8 이 느려지지만 **Intel CPU(VNNI) 2.3배 가속**,
+Arc B580 은 848→853 fps 로 포화. *"INT8=항상 빠름"이 틀렸음을 실측으로 보임.*
+
 ### 🍎 [grippers-host-mac — Apple Silicon 이식](projects/grippers-host-mac.md)
 *2026 · 단독*
 
