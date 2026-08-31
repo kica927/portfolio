@@ -1,0 +1,11 @@
+path: /Users/lemma/Desktop/intel/_a1_dataset/dataset
+train: images/test_real
+val: images/test_real
+
+names:
+  0: knight
+  1: queen
+  2: rook
+  3: box
+  4: soccer
+  5: star

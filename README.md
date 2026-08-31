@@ -53,6 +53,13 @@ Hailo **76.5 FPS** (CPU 폴백 14.3, 요구치 5.0) · 210초 녹화 실측 **�
 지연은 하드웨어에 종속 — 맥 arm64 CPU 에선 INT8 이 느려지지만 **Intel CPU(VNNI) 2.3배 가속**,
 Arc B580 은 848→853 fps 로 포화. *"INT8=항상 빠름"이 틀렸음을 실측으로 보임.*
 
+### 🧪 [A2 — 합성데이터, 어디까지 실사에 통하나](projects/a2-synthetic-gap.md)
+*2026 · 단독 · 인텔 교육 스택 부각*
+
+합성 학습량을 늘려가며 스케일링·sim-to-real 갭을 Arc XPU 에서 측정. **합성 val 0.94 →
+실사 0.42**(mAP50-95, 도메인갭 절반 이상) — 합성 val 점수가 실사를 크게 과대평가함을 정량화.
+다만 합성 증량은 실사에도 도움(0.28→0.42)되고 특히 **오검출(soccer 환각)을 억제**함.
+
 ### 🍎 [grippers-host-mac — Apple Silicon 이식](projects/grippers-host-mac.md)
 *2026 · 단독*
 
