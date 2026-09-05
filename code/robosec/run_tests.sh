@@ -2,29 +2,40 @@
 # RoboSec 소프트웨어 테스트 러너 — 하드웨어 불필요.
 #
 # grippers baseline(= 9/8 실기에서 Pi 가 실행하는 배포본)을 대상으로:
-#   1) baseline probe  — 배포본 그대로. F1(NaN 누출)·F2 는 "문서화된 발견"이므로
-#                        19/21 이 정상이다(F1 관련 2건이 의도적으로 FAIL).
-#   2) patched probe   — patches/F1_resolve_motion_nonfinite.patch 를 얹은 트리.
-#                        F1 이 닫혀 21/21 이어야 한다. baseline 은 건드리지 않는다.
+#   1) baseline probe  — 배포본 그대로. F1 은 2026-08-30 저녁 baseline 에 병합돼
+#                        이미 닫혔으므로(`74b0cad`/`55ebab4`) 21/21 이 정상이다.
+#                        만약 19/21 로 F1 관련 FAIL 이 다시 나오면 그게 진짜
+#                        회귀 발견이다.
+#   2) patched probe   — baseline 에 F1 수정이 이미 들어있으면 이 단계는 건너뛴다
+#                        (패치할 대상이 없음). 혹시 baseline 에서 그 수정이
+#                        빠져 있으면(회귀) patches/F1_resolve_motion_nonfinite.patch
+#                        를 별도 트리에 적용해 21/21 이 되는지로 패치 자체의
+#                        유효성만 확인한다. baseline 은 절대 건드리지 않는다.
 #   3) invariant 자가검증 + (있으면) 실측 bag 스캔
 #   4) attacker 목록(전송 없음)
 #
-# baseline 워크트리를 자동 생성해 GRIPPERS_ROOT 로 물린다 — 맥 메인 클론을 안 건드린다.
+# 전용 워크트리를 자동 생성해 GRIPPERS_ROOT 로 물린다 — 맥 메인 클론도,
+# 실제 Pi 배포에 쓰는 grippers-baseline-wt 도 절대 건드리지 않는다(2026-09-04
+# 수정: 예전 기본값은 그 실배포 워크트리를 재사용해 checkout --detach 로
+# 브랜치에서 떼어내 버렸다 — 이 러너가 배포 워크트리를 조용히 망가뜨릴 뻔한
+# 버그였다).
 #
 #   bash run_tests.sh
 #
 set -u
 ROBOSEC_DIR="$(cd "$(dirname "$0")" && pwd)"
 GRIPPERS_REPO="${GRIPPERS_REPO:-$HOME/Desktop/intel/grippers}"
-WT="${GRIPPERS_BASELINE_WT:-$HOME/Desktop/intel/grippers-baseline-wt}"
+WT="${GRIPPERS_BASELINE_WT:-$HOME/Desktop/intel/grippers-robosec-check-wt}"
 PT="${GRIPPERS_PATCHED_WT:-$HOME/Desktop/intel/grippers-patched-wt}"
-BASELINE_REF="${BASELINE_REF:-origin/kica927/baseline_mission}"
+# 기본값을 origin(다른 속도로 push 되는 원격 브랜치, stale 위험)이 아니라
+# 로컬 grippers 클론의 현재 HEAD 로 잡는다 — 이게 실제로 Pi 에 배포되는 코드다.
+BASELINE_REF="${BASELINE_REF:-$(git -C "$GRIPPERS_REPO" rev-parse HEAD)}"
 PATCH="$ROBOSEC_DIR/patches/F1_resolve_motion_nonfinite.patch"
 PY="${PY:-$HOME/Desktop/intel/.venv_test/bin/python}"
 [ -x "$PY" ] || PY=python3
 
 if [ ! -d "$WT/domain" ]; then
-  echo ">> baseline 워크트리 생성: $WT"
+  echo ">> baseline 워크트리 생성(RoboSec 전용, 실배포 워크트리와 무관): $WT"
   git -C "$GRIPPERS_REPO" worktree add --detach "$WT" "$BASELINE_REF" || exit 1
 else
   git -C "$WT" checkout --detach "$BASELINE_REF" >/dev/null 2>&1 || true
@@ -36,20 +47,27 @@ echo
 cd "$ROBOSEC_DIR"
 rc=0
 
-echo "==================== 1) baseline probe (배포본 그대로 · 19/21 기대) ===================="
+echo "==================== 1) baseline probe (배포본 그대로 · 21/21 기대: F1 은 이미 닫힘) ===================="
 probe_out="$(GRIPPERS_ROOT="$WT" PYTHONPATH=. "$PY" run_probes.py 2>&1)"; echo "$probe_out"
 total="$(printf '%s\n' "$probe_out" | grep -oE '전체: [0-9]+/21' | head -1)"
 nfail="$(printf '%s\n' "$probe_out" | grep -c '\*\*FAIL\*\*')"
 nfail_nan="$(printf '%s\n' "$probe_out" | grep '\*\*FAIL\*\*' | grep -c 'nan')"
-if [ "$total" = "전체: 19/21" ] && [ "$nfail" -eq 2 ] && [ "$nfail_nan" -eq 2 ]; then
-  echo ">> OK — 19/21. 두 FAIL 모두 F1(NaN 베이스 누출) = 배포본의 문서화된 발견(취약점)."
+if [ "$total" = "전체: 21/21" ]; then
+  baseline_has_f1_fix=1
+  echo ">> OK — 21/21. F1(NaN 베이스 누출)이 baseline 에 이미 병합되어 닫혀 있음."
+elif [ "$total" = "전체: 19/21" ] && [ "$nfail" -eq 2 ] && [ "$nfail_nan" -eq 2 ]; then
+  baseline_has_f1_fix=0
+  echo ">> !! 19/21 — F1 이 baseline 에서 다시 열렸다(회귀). 아래 2)에서 별도 패치로 재확인."; rc=1
 else
-  echo ">> !! baseline 기대와 다름 (19/21 · F1 2건이어야 함): total='$total' fail=$nfail nan=$nfail_nan"; rc=1
+  baseline_has_f1_fix=0
+  echo ">> !! baseline 기대와 다름(21/21 또는 F1 2건짜리 19/21 이어야 함): total='$total' fail=$nfail nan=$nfail_nan"; rc=1
 fi
 echo
 
-echo "==================== 2) patched probe (F1 패치 적용 · 21/21 기대) ===================="
-if [ ! -f "$PATCH" ]; then
+echo "==================== 2) patched probe (F1 패치 유효성 · baseline 에 이미 병합돼 있으면 건너뜀) ===================="
+if [ "$baseline_has_f1_fix" -eq 1 ]; then
+  echo ">> 건너뜀 — F1 수정이 이미 baseline 에 있어 패치할 대상이 없음(1번에서 확인)."
+elif [ ! -f "$PATCH" ]; then
   echo ">> !! 패치 파일 없음: $PATCH"; rc=1
 else
   rm -rf "$PT" && mkdir -p "$PT" && cp -R "$WT/domain" "$PT/domain"
@@ -89,8 +107,8 @@ echo
 
 if [ $rc -eq 0 ]; then
   echo "=============================================================="
-  echo "✅ 소프트웨어 테스트 통과 — baseline 19/21(F1 발견) + patched 21/21(F1 닫힘)"
-  echo "   + selftest + 실측 bag 스캔 + 공격목록 + F2 before/after. 실기 §3.5~§4 는 이 러너 밖이다."
+  echo "✅ 소프트웨어 테스트 통과 — baseline 21/21(F1 이미 닫힘) + selftest"
+  echo "   + 실측 bag 스캔 + 공격목록 + F2 before/after. 실기 §3.5~§4 는 이 러너 밖이다."
 else
   echo "⚠️ 실패 있음 (rc=$rc) — 위 출력 확인"
 fi

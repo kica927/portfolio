@@ -15,7 +15,7 @@ import pathlib
 import sys
 import threading
 
-sys.path.insert(0, str(pathlib.Path.home() / "Desktop/포트폴리오/github/udp-network-lab/protocol"))
+sys.path.insert(0, str(pathlib.Path.home() / "Desktop/포트폴리오/portfolio/code/udp-network-lab/protocol"))
 import harness  # noqa: F401  (GRIPPERS_ROOT → sys.path)
 import secure_framing as SF
 from secure_host_link import SecureLink

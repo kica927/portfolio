@@ -1,6 +1,7 @@
+# RoboSec — grippers 링크 보안 테스트 하네스
+
 > **공개 스냅샷 안내.** 실제 네트워크 IP 는 문서용 placeholder(`192.0.2.x`, RFC5737 TEST-NET)로 치환했고, 스크립트는 `PI_IP`·`PI` 등 env 변수로 실제 값을 받습니다. 대상 로봇 코드는 공개 저장소 [`grippers-intel/grippers`](https://github.com/grippers-intel/grippers)(개인 미러 `kica927/grippers`)입니다. 이 툴킷은 **자신이 만든 로봇을 대상으로** 하는 방어적 보안 테스트용입니다.
 
-# RoboSec — grippers 링크 보안 테스트 하네스
 
 grippers 의 Host↔Pi UDP 링크(5005/5006)를 대상으로, **크래시가 아니라 안전
 불변식 위반**을 찾는 도구 모음이다. 방법론·위협 모델·불변식 정의는 포트폴리오
@@ -71,16 +72,29 @@ grippers 저장소가 다른 경로면 `GRIPPERS_ROOT=/경로` 를 앞에 붙인
 Python 3.11 로 돌리려면 `~/Desktop/intel/.venv_test/bin/python` 을 쓴다
 (Pi 런타임과 같은 버전 — 교차검증용).
 
-## 현재 결과 (2026-08-30, 하드웨어 이전)
+## 현재 결과 (2026-09-04 갱신)
 
-**20/21.** 유일한 미통과가 실제 발견이다.
+**F1 은 병합되어 닫혔다.** 2026-08-30 저녁 `74b0cad`/`55ebab4` 로 baseline 자체
+(`domain/task/motion.py`)에 반영되고 team origin 에 PR #45 로 merge 됐다.
+2026-09-04 현재 HEAD(`3dd85c8`, Pi 배포본과 동일)를 대상으로 `run_probes.py` 를
+다시 돌리면 **21/21** — F1 항목도 PASS 다. 아래는 08-30 발견 당시 기록(역사적
+근거로 보존).
 
-- **F1 🔴 NaN 속도가 D5·D1 두 방어를 모두 통과**해 `apply_velocity(nan,…)` 까지
-  도달한다. `min(abs(nan), limit)` 이 nan 이라 클램프가 무력하다.
-- **F2 🟡 상태 게이팅은 전이만 막고 속도는 막지 않는다** — 인증 없는 소켓과
-  합치면 IDLE 로봇을 임의 속도로 움직일 수 있다.
+- **F1 🔴(닫힘) NaN 속도가 D5·D1 두 방어를 모두 통과**해 `apply_velocity(nan,…)`
+  까지 도달했다. `min(abs(nan), limit)` 이 nan 이라 클램프가 무력했다. →
+  `_clamp` 에 `math.isfinite` 체크를 추가해 해결(제안 패치와 동일한 형태로 병합).
+- **F2 🟡(열림) 상태 게이팅은 전이만 막고 속도는 막지 않는다** — 인증 없는
+  소켓과 합치면 IDLE 로봇을 임의 속도로 움직일 수 있다. **방어는
+  [`udp-network-lab`](../../projects/udp-network-lab.md)
+  에서 HMAC+시퀀스로 설계·구현·검증까지 끝났다**(F2 before/after 실증
+  OLD 2/2→NEW 0/2, 퍼징 3종 무결점) — 다만 grippers 본체에 수신 어댑터로
+  통합하는 것은 그쪽 문서의 Future Work 로 아직 안 됐고, RoboSec 이 grippers
+  를 수정하지 않는다는 원칙상 이 통합은 RoboSec 범위 밖이다.
 
-자세한 근거·제안·확증 계획은 [`results/inprocess_2026-08-30.md`](results/inprocess_2026-08-30.md).
+자세한 근거는 [`results/inprocess_2026-08-30.md`](results/inprocess_2026-08-30.md)
+(F1 발견 당시), 실기 재현은 `results/onhardware_2026-08-30.md`·
+`results/onhardware_2026-08-31.md`. **09-08 실기의 초점은 F2 확증(이미 열려
+있음을 재확인)과 F1 회귀 확인(이미 닫힌 방어가 실물에서도 유지되는지)이다.**
 
 ## 원칙
 

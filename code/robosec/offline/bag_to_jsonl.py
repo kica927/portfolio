@@ -65,7 +65,7 @@ def convert(bag_path: str) -> list[dict]:
         topics = {name: tid for tid, name in
                   con.execute("SELECT id, name FROM topics")}
         state_id = topics.get("/mission/state")
-        cmd_id = topics.get("cmd_vel")
+        cmd_id = topics.get("cmd_vel") or topics.get("/cmd_vel")
         if cmd_id is None:
             raise SystemExit(f"cmd_vel 토픽이 bag 에 없습니다. 있는 토픽: {list(topics)}")
 
