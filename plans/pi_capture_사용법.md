@@ -81,7 +81,7 @@ pi_capture/
 ## Pi 가 살아나면
 
 ```
-cd ~/Desktop/intel/pi_capture
+cd ~/Desktop/intel/grippers_project/pi_capture
 ./deploy.sh
 ```
 
@@ -122,7 +122,7 @@ python3 /tmp/pi_capture/tap.py --out /tmp/capture_out/run_$(date +%H%M%S) \
 ## 맥으로 가져와 분석
 
 ```
-cd ~/Desktop/intel/pi_capture
+cd ~/Desktop/intel/grippers_project/pi_capture
 ./collect.sh
 python3 mac/analyze_stop.py --dir ~/Desktop/intel/grippers_recordings_final/run_XXXX
 python3 mac/analyze_watchdog.py --dir ~/Desktop/intel/grippers_recordings_final/run_XXXX

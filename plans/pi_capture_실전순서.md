@@ -33,7 +33,7 @@ ssh pi@raspberrypi.local
 # 1단계 — 배포 (맥, T1)
 
 ```
-cd ~/Desktop/intel/pi_capture
+cd ~/Desktop/intel/grippers_project/pi_capture
 ./deploy.sh
 ```
 
@@ -260,7 +260,7 @@ INSERT 접근은 정지로 끝나므로, 통주행 한 번에 정지가 여러 �
 시행 몇 개가 쌓이면:
 
 ```
-cd ~/Desktop/intel/pi_capture
+cd ~/Desktop/intel/grippers_project/pi_capture
 ./collect.sh
 ```
 
@@ -279,7 +279,7 @@ cd ~/Desktop/intel/pi_capture
 # 8단계 — 분석 (맥, T1)
 
 ```
-cd ~/Desktop/intel/pi_capture
+cd ~/Desktop/intel/grippers_project/pi_capture
 python3 mac/analyze_stop.py --dir ~/Desktop/intel/grippers_recordings_final/run_143012
 ```
 
