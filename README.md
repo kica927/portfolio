@@ -51,7 +51,9 @@ Hailo **76.5 FPS** (CPU 폴백 14.3, 요구치 5.0) · 210초 녹화 실측 **�
 
 같은 검출기를 OpenVINO INT8 로 양자화해 **크기 3.2배↓ · mAP −0.46pp**(정확도 손실 없음).
 지연은 하드웨어에 종속 — 맥 arm64 CPU 에선 INT8 이 느려지지만 **Intel CPU(VNNI) 2.3배 가속**,
-Arc B580 은 848→853 fps 로 포화. *"INT8=항상 빠름"이 틀렸음을 실측으로 보임.*
+Arc B580 은 848→853 fps 로 포화. *"INT8=항상 빠름"이 틀렸음을 실측으로 보임.* NPU 는
+드라이버 부재를 원인까지 규명해 직접 설치·인식시켰고, **NPU에서도 INT8이 오히려
+느려지는**(136→123 fps) 세 번째 반례를 확인.
 
 ### 🧪 [A2 — 합성데이터, 어디까지 실사에 통하나](projects/a2-synthetic-gap.md)
 *2026 · 단독 · 인텔 교육 스택 부각*
@@ -81,6 +83,13 @@ MentorPi 메카넘 로봇으로 차선추종 · 코너링 · 횡단보도 · 신
 **전 브랜치 430커밋 중 80건** · `kica927/right` 브랜치 +695/−319줄
 
 → 코드 [`grippers-intel/Immortan-Project`](https://github.com/grippers-intel/Immortan-Project)
+
+### 🚗 [Edge Perception Desktop — 공개 데이터셋 인지모델 + CARLA](projects/edge-perception-desktop.md)
+*2026-09 · 단독 · 데스크탑(Arc B580) 자율주행 트랙*
+
+Immortan 과는 독립적으로, 실기 없이 공개 데이터셋(BDD100K)과 시뮬레이터(CARLA)만으로
+자율주행 인지·환경을 갖추는 실험. YOLO11n 파인튜닝 mAP50 **0.050**(학습량 부족을 그대로
+기록) · CARLA 8.4GB 다운로드 99초 + 19GB 설치 완료, Vulkan(Arc B580) 구동 요건 확인.
 
 ### 🔬 [Intel Geti — F1 차량 팀 분류](projects/geti-f1-classification.md)
 *2026 · 단독*
@@ -125,6 +134,13 @@ on_activate 토크ON+현재위치 초기화). **데스크탑 colcon 빌드 성�
 트랙에서 "미도달"로 뒀던 VLA 를, 실기 없이 오프라인 파인튜닝으로 돌림. **NVIDIA 아닌 Intel
 Arc B580(XPU)** 에서 SmolVLA(450M) 가 수렴 — loss **0.615→0.096**, 6000 step ≈ 12분.
 "VLA=CUDA 필수"를 실측 반증. 롤아웃(실기 추론)은 팔 없어 미수행.
+
+### 🤖 [ACT vs SmolVLA — 오프라인 정량 비교](projects/act-vs-smolvla-offline.md)
+*2026-09 · 단독 · 로봇팔 트랙 확장(오프라인)*
+
+두 정책이 서로 다른 과제로 학습돼 비교가 안 됐던 문제를, redball 데이터로 ACT 를
+새로 학습시켜 풀었다. **추론 지연 6.48ms(ACT) vs 143.64ms(SmolVLA) — 22배 차이**,
+파라미터 51.6M vs 450M. loss 절대값은 비교 불가지만 구조 차이가 실시간성에 그대로 반영됨.
 
 ### 🥤 [색상별 컵 정렬 — SO-ARM101 미니 프로젝트](projects/cup-sorting.md)
 *2026 · 로봇팔 교육 FINAL 과제 · 안전/시스템 담당*

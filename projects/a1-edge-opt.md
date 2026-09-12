@@ -48,6 +48,7 @@ best.pt ──ultralytics export──> OpenVINO FP32 IR
 | Intel Core Ultra 5 225 | 44.8 | **104.0** | **×2.32** |
 | Intel iGPU | 92.6 | 122.3 | ×1.32 |
 | Intel Arc B580 (dGPU) | 847.7 | 853.0 | ×1.01 (포화) |
+| Intel NPU (Core Ultra 5 225 내장, f16 고정) | 136.2 | **123.2** | **×0.90 (느려짐)** |
 
 ## Findings
 
@@ -58,6 +59,26 @@ best.pt ──ultralytics export──> OpenVINO FP32 IR
    848 fps로 연산이 병목이 아니라, INT8은 여기서 속도보다 **메모리·전력** 이점으로 봐야 한다.
 3. **배포 전략 결론:** 저사양 Intel CPU 타깃이면 INT8이 결정적(2.3배 + 3.2배 경량).
    강력한 dGPU면 FP16로 충분.
+4. **"엣지 AI 가속기 = 곧바로 쓸 수 있다"는 것도 오해다.** Core Ultra 5 225는 NPU를
+   내장하고 커널 드라이버(`intel_vpu`)도 정상 로드되지만, OpenVINO는 처음엔 `NPU`를
+   `available_devices`에 올리지 못했다. 조사 결과 커널·권한·OpenVINO 파이썬 패키지(NPU
+   플러그인 `.so` 포함)는 전부 정상이고, 딱 하나 — **NPU 전용 level-zero 컴파일러
+   (`libopenvino_intel_npu_compiler_loader.so`)만 시스템에 없었다.** 이 컴파일러는 PyPI가
+   아니라 Intel의 `.deb` 패키지(`intel-driver-compiler-npu`)로만 배포된다(직접
+   `pip download`로 부재를 확인). GPU 스택은 동등한 `libze_intel_gpu.so`가 이미 있어
+   `GPU.0`/`GPU.1`은 문제없이 잡히는 것과 대조적이다. **NPU/GPU/CPU는 같은 OpenVINO API로
+   추상화돼 있어도, 실제로는 각 벤더 드라이버 계층이 별도로 완비돼야 한다** — "플러그인이
+   있다"와 "구동된다" 사이의 간극을 실측으로 확인했다. 이후 Intel 공식 GitHub 릴리즈에서
+   `.deb` 3종(`intel-driver-compiler-npu`·`intel-fw-npu`·`intel-level-zero-npu`)을 받아
+   설치하니 즉시 인식됐다 — 원인 진단이 정확했다는 뜻이다.
+5. **NPU는 GPU/CPU와 다른 종류의 가속기다.** 정밀도 힌트로 FP32를 주면 파싱 에러로
+   거부한다 — NPU는 힌트로 고르는 게 아니라 **애초에 FP16 고정 아키텍처**다. 그리고
+   **INT8 IR을 NPU에 올리면 오히려 느려진다**(136.2→123.2 fps, −9.6%) — NPU가 INT8
+   텐서를 결국 FP16으로 되돌려 처리하면서 양자화 그래프의 dequantize 오버헤드만 얹기
+   때문으로 보인다. Arc B580(포화라 무의미)에 이어 **NPU도 "INT8=항상 빠름"의 반례**다.
+   NPU의 절대 성능(136 fps)은 CPU(91 fps)보다는 빠르지만 iGPU와 비슷한 수준이고
+   Arc B580(849 fps)에는 크게 못 미친다 — 이 데스크탑 구성에서 NPU의 존재 의의는
+   "속도"보다 **낮은 전력으로 상시 가동**하는 쪽에 가깝다(전력 측정은 이번 범위 밖).
 
 ## 정직한 한계
 
@@ -66,6 +87,15 @@ best.pt ──ultralytics export──> OpenVINO FP32 IR
 - 지연은 **모델 단독**(전처리·NMS·게이트 제외). Hailo-8 INT8 76.5 fps(전체 파이프라인)와
   직접 비교하려면 같은 축 재측정 필요.
 - FP16 CPU는 이 빌드에서 미가속(정상).
+- **NPU 측정은 2026-09-12에 완료됐다**(사용자 승인 하에 Intel 공식 드라이버 설치, 상세는
+  [실측 로그](code/a1-edge-opt/a1_bench_results.md) 참고). 다만 같은 실행에서 CPU 수치가
+  기존 확정치(44.8/104.0 fps)와 약 2배 차이(90.8/207.6 fps)가 났고, **그 원인(스레드
+  설정·전력 프로파일 차이 등)은 특정하지 않았다.** CPU 확정치는 2026-08-31 값을 그대로
+  유지하고, NPU 수치는 이 편차와 무관하게 독립적으로 신뢰한다(NPU는 이번에 처음 측정된
+  값이라 비교 대상 자체가 없다).
+- NPU 절대 성능(136 fps)과 iGPU/Arc의 격차는 확인했지만, **전력 소비는 어느 디바이스도
+  측정하지 않았다.** "NPU는 저전력 상시 가동에 유리하다"는 Findings의 해석은 아키텍처
+  특성에 근거한 추정이며 실측이 아니다.
 
 ## 부록 — 데이터셋 복구
 
@@ -75,5 +105,7 @@ best.pt ──ultralytics export──> OpenVINO FP32 IR
 
 ## 코드
 
-`code/a1-edge-opt/` — `a1_bench_cpu.py`(맥 CPU 지연), `a1_bench_gpu_desktop.py`(Intel 3종 FP 지연),
-`a1_int8_accuracy.py`(INT8 양자화 + mAP + 지연), `a1_bench_results.md`(전체 실측 로그).
+`code/a1-edge-opt/` — `a1_bench_cpu.py`(맥 CPU 지연), `a1_bench_gpu_desktop.py`(Intel CPU·iGPU·
+Arc B580·NPU 지연, NPU 포함 4-way 측정 완료),
+`a1_int8_accuracy.py`(INT8 양자화 + mAP + 지연), `a1_bench_results.md`(전체 실측 로그,
+NPU 드라이버 설치·측정 과정 포함).

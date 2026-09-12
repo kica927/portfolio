@@ -51,7 +51,9 @@ VLA는 보통 CUDA 전제로 이야기되지만, 이 트랙의 학습 자원은 
 ## Future Work
 
 (1) 실기 롤아웃으로 성공률 측정, (2) 멀티태스크·다양한 언어 지시로 데이터 확장,
-(3) ACT vs SmolVLA 동일 데이터 비교(오프라인 지표).
+(3) ~~ACT vs SmolVLA 동일 데이터 비교(오프라인 지표)~~ → **완료.** redball 로 ACT 를
+처음부터 새로 학습해 이 문서의 loss curve·학습 비용과 나란히 비교했다 — 자세한
+내용은 [ACT vs SmolVLA — 오프라인 비교](act-vs-smolvla-offline.md).
 
 ## 산출물 · 재현
 - **체크포인트(공개):** [`kica927/smolvla_redball_ft`](https://huggingface.co/kica927/smolvla_redball_ft) — HF Hub 에 push.

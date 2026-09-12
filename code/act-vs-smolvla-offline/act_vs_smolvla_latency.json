@@ -1,0 +1,26 @@
+[
+  {
+    "name": "ACT",
+    "pretrained_path": "/home/lemma/act_redball_ft/checkpoints/020000/pretrained_model",
+    "total_params": 51597190,
+    "trainable_params": 51597190,
+    "n_iters": 30,
+    "latency_ms_mean": 6.483359599981971,
+    "latency_ms_median": 6.466363000072306,
+    "latency_ms_stdev": 0.09124067768665406,
+    "latency_ms_min": 6.437155000639905,
+    "latency_ms_max": 6.955844000003708
+  },
+  {
+    "name": "SmolVLA",
+    "pretrained_path": "/home/lemma/smolvla_redball_ft/checkpoints/006000/pretrained_model",
+    "total_params": 450046176,
+    "trainable_params": 99880992,
+    "n_iters": 30,
+    "latency_ms_mean": 143.64166583342617,
+    "latency_ms_median": 143.61727499999688,
+    "latency_ms_stdev": 0.5321204603375309,
+    "latency_ms_min": 142.76240300023346,
+    "latency_ms_max": 145.21906900063186
+  }
+]
