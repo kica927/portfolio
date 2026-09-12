@@ -98,15 +98,54 @@ ACT를 처음부터 새로 학습**시키면, 학습 비용·수렴 형태·추�
   실행), **총 학습 소요시간(59분 56초)은 이 리소스 경합의 영향을 받아 단독 실행보다
   길어졌을 수 있다.**
 
+## 추가 실험 — SmolVLA를 OpenVINO로 경량화 시도 (2026-09-12)
+
+[A1](a1-edge-opt.md)의 양자화 접근을 SmolVLA에도 적용해 143.64ms를 줄일 수 있는지
+시도했다. **VLM 백본 + 액션 전문가 구조라 ONNX 변환 자체가 막힐 것으로 예상**했으나,
+실제로는 예상과 다르게 흘러갔다.
+
+**시도 순서와 결과**
+
+1. `policy.select_action()`의 핵심 경로(`model.sample_actions()`)를 감싸 `torch.onnx.export`
+   (legacy TorchScript exporter, opset 18)로 전체 파이프라인 export를 시도 — **예상외로
+   성공.**
+2. `dynamo=True`(최신 exporter)로도 재시도 — **역시 성공.**
+3. 두 ONNX 중 하나(15.4MB)를 OpenVINO IR로 변환 — **이것도 성공.**
+4. IR을 CPU·Arc B580(GPU.1)에서 실행해 지연을 측정:
+
+| device | 결과 |
+|---|---|
+| CPU | **612.51ms**(mean) — PyTorch/XPU 베이스라인(143.64ms) 대비 **4.3배 느림** |
+| Arc B580(GPU.1) | **컴파일 자체가 실패**(`ProgramBuilder` 단계에서 미지원 연산으로 추정되는 에러) |
+
+**신뢰성 자체에 의문이 있다.** 변환된 IR의 Constant(가중치) 텐서 총합을 세어보니
+**810.2M개**로, 원본 SmolVLA의 실제 파라미터 수(450.0M)와 맞지 않는다. 그런데도 ONNX
+파일 크기는 15.4MB에 불과하다(450M 파라미터면 FP32 기준 1.8GB는 돼야 한다). 이 세
+숫자(810.2M 텐서 원소·15.4MB 파일·143.64ms였던 원본과 무관하게 느려진 지연)가 서로
+앞뒤가 맞지 않는다 — **export된 그래프가 원본과 동일한 계산을 하는지 검증하지
+않았고, 출력값을 PyTorch 버전과 대조하지도 않았다.** "예상외로 export가 성공했다"는
+사실 자체는 흥미롭지만, 그 결과물이 올바른 SmolVLA를 나타낸다고 확신할 근거가 없다.
+
+**결론: 이 경로로는 경량화 이득을 얻지 못했다.** CPU에서는 명백히 느려졌고, GPU에서는
+아예 실행이 안 되며, 결과물의 정합성도 검증되지 않았다. INT8 양자화(NNCF)는 이 시점에서
+시도하지 않았다 — FP32 단계부터 이미 원본보다 느린 것을 양자화한들 개선을 기대하기
+어렵고, 먼저 export 정합성 문제를 풀어야 의미가 있다.
+
 ## Future Work
 
 - ACT·SmolVLA를 정확히 같은 스텝 수로 재학습해 학습 곡선 자체를 직접 비교.
 - 실기 접근이 복구되면 성공률 비교로 이어서 완성.
-- OpenVINO/INT8 양자화로 SmolVLA 추론을 경량화해 143ms를 얼마나 줄일 수 있는지 검증
-  — [A1](a1-edge-opt.md)의 양자화 접근과 같은 축.
+- ~~OpenVINO/INT8 양자화로 SmolVLA 추론 경량화~~ → **시도했으나 미해결로 남음.** ONNX
+  export 자체는 예상외로 됐지만 결과물의 정합성이 의심스럽고(파라미터 수 불일치),
+  실제 지연은 오히려 4배 느려졌다(CPU) · GPU는 컴파일 실패. 다음에 이어서 할 것:
+  (1) export된 그래프의 출력을 PyTorch 원본과 직접 대조해 정합성부터 검증, (2) 정합성이
+  확인되면 GPU 컴파일 실패의 정확한 원인(미지원 연산자) 규명, (3) 그 이후에야 INT8
+  양자화 의미가 있다.
 
 ## 코드
 
 `code/act-vs-smolvla-offline/` — `act_train.sh`(ACT를 redball로 처음부터 학습, XPU),
 `bench_latency.py`(추론 지연·파라미터 수 벤치마크), `act_train_milestones.log`(학습
-로그에서 마일스톤만 추출), `act_vs_smolvla_latency.json`(벤치마크 원본 출력).
+로그에서 마일스톤만 추출), `act_vs_smolvla_latency.json`(벤치마크 원본 출력),
+`smolvla_openvino_experiment/`(`step1_full_export.py` — ONNX export 시도,
+`step2_convert_and_bench.py` — OpenVINO IR 변환·지연 측정).
