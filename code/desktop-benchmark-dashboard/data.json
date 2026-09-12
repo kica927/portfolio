@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "host": "intel-B860M-DS3H",
+    "cpu": "Intel Core Ultra 5 225 (Arrow Lake, NPU 내장)",
+    "gpu": "Intel Arc B580 (Battlemage, dGPU) + Arrow Lake iGPU",
+    "os": "Ubuntu 24.04.4 LTS",
+    "generated": "2026-09-12"
+  },
+  "edge_ai": {
+    "model": "YOLO11n (2,583,322 파라미터, 6.4 GFLOPs, 640x640)",
+    "devices": [
+      {"device": "Intel CPU (Ultra 5 225)", "fp32_fps": 44.8, "int8_fps": 104.0, "speedup": 2.32},
+      {"device": "Intel iGPU", "fp32_fps": 92.6, "int8_fps": 122.3, "speedup": 1.32},
+      {"device": "Intel Arc B580 (dGPU)", "fp32_fps": 847.7, "int8_fps": 853.0, "speedup": 1.01},
+      {"device": "Intel NPU (AI Boost, FP16 고정)", "fp32_fps": 136.2, "int8_fps": 123.2, "speedup": 0.90},
+      {"device": "맥 M1 Pro CPU (arm64, 참고)", "fp32_fps": 91.2, "int8_fps": 76.2, "speedup": 0.84}
+    ],
+    "accuracy": {
+      "fp32_size_mb": 10.74, "int8_size_mb": 3.39,
+      "fp32_map50_95": 0.9302, "int8_map50_95": 0.9255,
+      "fp32_map50": 0.9760, "int8_map50": 0.9770
+    }
+  },
+  "perception": {
+    "model": "YOLO11n (COCO 사전학습 -> BDD100K 10클래스 파인튜닝)",
+    "classes": ["car", "truck", "bus", "pedestrian", "rider", "bicycle", "motorcycle", "traffic light", "traffic sign", "train"],
+    "before": {
+      "label": "무작위 샘플링 (1,000장: train 800 / val 200)",
+      "map50_95": 0.031, "map50": 0.050, "map75": 0.029,
+      "precision": 0.555, "recall": 0.059,
+      "train_minutes": 49,
+      "per_class_map50": {"car": 0.059, "truck": 0.017, "bus": 0.130, "pedestrian": 0.036, "rider": 0.0, "bicycle": 0.0, "motorcycle": 0.0, "traffic light": 0.006, "traffic sign": 0.031, "train": 0.0},
+      "per_class_instances": {"car": 10486, "truck": 417, "bus": 169, "pedestrian": 1336, "rider": 90, "bicycle": 130, "motorcycle": 51, "traffic light": 2927, "traffic sign": 3649, "train": 1}
+    },
+    "after": {
+      "label": "희귀클래스 우선 재샘플링 (3,000장: train 2400 / val 600)",
+      "map50_95": 0.1815, "map50": 0.3488, "map75": 0.1591,
+      "precision": 0.6047, "recall": 0.3284,
+      "train_minutes": 71,
+      "per_class_map50": {"car": 0.3966, "truck": 0.3149, "bus": 0.2457, "pedestrian": 0.1972, "rider": 0.0925, "bicycle": 0.1199, "motorcycle": 0.1266, "traffic light": 0.1225, "traffic sign": 0.1990, "train": 0.0}
+    },
+    "carla": {
+      "vulkan_api": "1.4.318", "download_gb": 8.39, "download_sec": 99,
+      "extracted_gb": 19, "headless_boot": "성공 (-RenderOffScreen)",
+      "captured_frames": 10, "frames_with_detection": 10
+    }
+  },
+  "policies": {
+    "act": {
+      "params_total": 51597190, "params_trainable": 51597190,
+      "steps": 20000, "step_per_sec": 12.40, "train_minutes": 59.93,
+      "checkpoint_mb": 198,
+      "latency_ms_mean": 6.483, "latency_ms_median": 6.466, "latency_ms_stdev": 0.091,
+      "loss_curve": [[1000, 1.952], [5000, 0.529], [10000, 0.260], [15000, 0.181], [20000, 0.156]]
+    },
+    "smolvla": {
+      "params_total": 450046176, "params_trainable": 99880992,
+      "steps": 6000, "step_per_sec": 9.8, "train_minutes": 12,
+      "checkpoint_mb": 865,
+      "latency_ms_mean": 143.642, "latency_ms_median": 143.617, "latency_ms_stdev": 0.532,
+      "loss_curve": [[50, 0.615], [500, 0.364], [1000, 0.274], [2000, 0.200], [3000, 0.138], [5000, 0.099], [6000, 0.096]],
+      "openvino_attempt": {"cpu_latency_ms": 612.51, "gpu_status": "컴파일 실패", "verified_correct": false}
+    }
+  }
+}

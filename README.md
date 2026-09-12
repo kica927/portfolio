@@ -143,6 +143,14 @@ Arc B580(XPU)** 에서 SmolVLA(450M) 가 수렴 — loss **0.615→0.096**, 6000
 새로 학습시켜 풀었다. **추론 지연 6.48ms(ACT) vs 143.64ms(SmolVLA) — 22배 차이**,
 파라미터 51.6M vs 450M. loss 절대값은 비교 불가지만 구조 차이가 실시간성에 그대로 반영됨.
 
+### 📊 [Desktop Benchmark Dashboard — Streamlit 데이터 분석](projects/desktop-benchmark-dashboard.md)
+*2026-09 · 단독 · 데스크탑 데이터 분석 트랙*
+
+A1·Edge Perception·ACT vs SmolVLA 세 프로젝트의 실측치를 새로 재지 않고 **Streamlit +
+Plotly 대시보드 하나로 통합**. 이 데스크탑(Arc B580)에 직접 배포해 Tailscale로 접속
+확인. 프로젝트 경계를 넘어 "이 하드웨어에서 양자화가 항상 이득은 아니다"는 반복
+패턴이 드러남 — 재시각화의 가치는 발견이 아니라 전달에 있었다는 정직한 결론.
+
 ### 🥤 [색상별 컵 정렬 — SO-ARM101 미니 프로젝트](projects/cup-sorting.md)
 *2026 · 로봇팔 교육 FINAL 과제 · 안전/시스템 담당*
 
