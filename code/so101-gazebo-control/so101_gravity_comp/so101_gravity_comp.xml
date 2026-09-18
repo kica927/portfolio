@@ -1,0 +1,9 @@
+<library path="so101_gravity_comp">
+  <class name="so101_gravity_comp/GravityCompensationController"
+         type="so101_gravity_comp::GravityCompensationController"
+         base_class_type="controller_interface::ChainableControllerInterface">
+    <description>
+      Adds scale * g(q) (Pinocchio, from robot_description) to effort references and writes joint efforts.
+    </description>
+  </class>
+</library>

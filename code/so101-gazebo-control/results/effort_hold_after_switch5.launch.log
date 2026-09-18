@@ -1,0 +1,152 @@
+[INFO] [launch]: All log files can be found below /home/lemma/.ros/log/2026-09-16-22-41-31-322418-intel-B860M-DS3H-73635
+[INFO] [launch]: Default logging verbosity is set to INFO
+[INFO] [gz-1]: process started with pid [73645]
+[INFO] [parameter_bridge-2]: process started with pid [73646]
+[INFO] [robot_state_publisher-3]: process started with pid [73647]
+[INFO] [create-4]: process started with pid [73648]
+[create-4] [INFO] [1789566091.401974062] [ros_gz_sim]: Requesting list of world names.
+[robot_state_publisher-3] [INFO] [1789566091.405384947] [robot_state_publisher]: Robot initialized
+[parameter_bridge-2] [INFO] [1789566091.414707810] [ros_gz_bridge]: Creating GZ->ROS Bridge: [/clock (gz.msgs.Clock) -> /clock (rosgraph_msgs/msg/Clock)] (Lazy 0)
+[create-4] [INFO] [1789566091.795390877] [ros_gz_sim]: Waiting messages on topic [robot_description].
+[create-4] [INFO] [1789566091.808404256] [ros_gz_sim]: Entity creation successful.
+[INFO] [create-4]: process has finished cleanly [pid 73648]
+[INFO] [spawner-5]: process started with pid [73739]
+[spawner-5] [INFO] [1789566092.142557206] [spawner_joint_state_broadcaster]: waiting for service /controller_manager/list_controllers to become available...
+[gz-1] [INFO] [1789566093.544828240] [gz_ros_control]: [gz_ros2_control] Fixed joint ['world_fixed'] (Entity='52') is skipped.
+[gz-1] [INFO] [1789566093.545189579] [gz_ros_control]: Loading controller_manager
+[gz-1] [INFO] [1789566093.550561213] [controller_manager]: Using ROS clock for triggering controller manager cycles.
+[gz-1] [INFO] [1789566093.552581390] [controller_manager]: Subscribing to '/robot_description' topic for robot description.
+[gz-1] [WARN] [1789566093.553736556] [gz_ros_control]: Waiting RM to load and initialize hardware...
+[gz-1] [INFO] [1789566093.733947068] [controller_manager]: Received robot description from topic.
+[gz-1] [INFO] [1789566093.734039481] [controller_manager]: Enforcing command limits is disabled. Command limits from URDF will be ignored.
+[gz-1] [INFO] [1789566093.738965986] [gz_ros_control]: The position_proportional_gain has been set to: 0.1
+[gz-1] [INFO] [1789566093.738997162] [gz_ros_control]: Loading joint: shoulder_pan
+[gz-1] [INFO] [1789566093.739001445] [gz_ros_control]: 	State:
+[gz-1] [INFO] [1789566093.739004713] [gz_ros_control]: 		 position
+[gz-1] [INFO] [1789566093.739015437] [gz_ros_control]: 			 found initial value: 0.000000
+[gz-1] [INFO] [1789566093.739019933] [gz_ros_control]: 		 velocity
+[gz-1] [INFO] [1789566093.739025876] [gz_ros_control]: 		 effort
+[gz-1] [INFO] [1789566093.739028356] [gz_ros_control]: 	Command:
+[gz-1] [INFO] [1789566093.739030070] [gz_ros_control]: 		 effort
+[gz-1] [INFO] [1789566093.739038691] [gz_ros_control]: Loading joint: shoulder_lift
+[gz-1] [INFO] [1789566093.739040540] [gz_ros_control]: 	State:
+[gz-1] [INFO] [1789566093.739042095] [gz_ros_control]: 		 position
+[gz-1] [INFO] [1789566093.739043684] [gz_ros_control]: 			 found initial value: 0.000000
+[gz-1] [INFO] [1789566093.739045449] [gz_ros_control]: 		 velocity
+[gz-1] [INFO] [1789566093.739047377] [gz_ros_control]: 		 effort
+[gz-1] [INFO] [1789566093.739049158] [gz_ros_control]: 	Command:
+[gz-1] [INFO] [1789566093.739050558] [gz_ros_control]: 		 effort
+[gz-1] [INFO] [1789566093.739056264] [gz_ros_control]: Loading joint: elbow_flex
+[gz-1] [INFO] [1789566093.739058027] [gz_ros_control]: 	State:
+[gz-1] [INFO] [1789566093.739059514] [gz_ros_control]: 		 position
+[gz-1] [INFO] [1789566093.739061109] [gz_ros_control]: 			 found initial value: 0.000000
+[gz-1] [INFO] [1789566093.739062782] [gz_ros_control]: 		 velocity
+[gz-1] [INFO] [1789566093.739064257] [gz_ros_control]: 		 effort
+[gz-1] [INFO] [1789566093.739066440] [gz_ros_control]: 	Command:
+[gz-1] [INFO] [1789566093.739067803] [gz_ros_control]: 		 effort
+[gz-1] [INFO] [1789566093.739072973] [gz_ros_control]: Loading joint: wrist_flex
+[gz-1] [INFO] [1789566093.739074730] [gz_ros_control]: 	State:
+[gz-1] [INFO] [1789566093.739076131] [gz_ros_control]: 		 position
+[gz-1] [INFO] [1789566093.739077516] [gz_ros_control]: 			 found initial value: 0.000000
+[gz-1] [INFO] [1789566093.739079205] [gz_ros_control]: 		 velocity
+[gz-1] [INFO] [1789566093.739080827] [gz_ros_control]: 		 effort
+[gz-1] [INFO] [1789566093.739082557] [gz_ros_control]: 	Command:
+[gz-1] [INFO] [1789566093.739085343] [gz_ros_control]: 		 effort
+[gz-1] [INFO] [1789566093.739090226] [gz_ros_control]: Loading joint: wrist_roll
+[gz-1] [INFO] [1789566093.739091858] [gz_ros_control]: 	State:
+[gz-1] [INFO] [1789566093.739093432] [gz_ros_control]: 		 position
+[gz-1] [INFO] [1789566093.739094797] [gz_ros_control]: 			 found initial value: 0.000000
+[gz-1] [INFO] [1789566093.739096508] [gz_ros_control]: 		 velocity
+[gz-1] [INFO] [1789566093.739097903] [gz_ros_control]: 		 effort
+[gz-1] [INFO] [1789566093.739099314] [gz_ros_control]: 	Command:
+[gz-1] [INFO] [1789566093.739100663] [gz_ros_control]: 		 effort
+[gz-1] [INFO] [1789566093.739105045] [gz_ros_control]: Loading joint: gripper
+[gz-1] [INFO] [1789566093.739106807] [gz_ros_control]: 	State:
+[gz-1] [INFO] [1789566093.739108270] [gz_ros_control]: 		 position
+[gz-1] [INFO] [1789566093.739109682] [gz_ros_control]: 			 found initial value: 0.000000
+[gz-1] [INFO] [1789566093.739111335] [gz_ros_control]: 		 velocity
+[gz-1] [INFO] [1789566093.739113903] [gz_ros_control]: 		 effort
+[gz-1] [INFO] [1789566093.739115432] [gz_ros_control]: 	Command:
+[gz-1] [INFO] [1789566093.739116840] [gz_ros_control]: 		 position
+[gz-1] [INFO] [1789566093.739191386] [controller_manager]: Initialize hardware 'so101_gz' 
+[gz-1] [WARN] [1789566093.739200067] [controller_manager.hardware_component.system.so101_gz]: Executor is not available during hardware component initialization for 'so101_gz'. Skipping node creation!
+[gz-1] [INFO] [1789566093.774271317] [controller_manager]: Successful initialization of hardware 'so101_gz'
+[gz-1] [INFO] [1789566093.774701838] [controller_manager]: Activating component 'so101_gz'.
+[gz-1] [INFO] [1789566093.774723435] [resource_manager]: 'configure' hardware 'so101_gz' 
+[gz-1] [INFO] [1789566093.774733273] [gz_ros_control]: System Successfully configured!
+[gz-1] [INFO] [1789566093.774742997] [resource_manager]: Successful 'configure' of hardware 'so101_gz'
+[gz-1] [INFO] [1789566093.774761795] [resource_manager]: 'activate' hardware 'so101_gz' 
+[gz-1] [INFO] [1789566093.774791708] [resource_manager]: Successful 'activate' of hardware 'so101_gz'
+[gz-1] [WARN] [1789566093.774939550] [controller_manager]: Component 'so101_gz' does not have read or write statistics initialized, skipping registration.
+[gz-1] [INFO] [1789566093.774954139] [controller_manager]: Resource Manager has been successfully initialized. Starting Controller Manager services...
+[gz-1] [INFO] [1789566093.896800441] [controller_manager]: Loading controller : 'joint_state_broadcaster' of type 'joint_state_broadcaster/JointStateBroadcaster'
+[gz-1] [INFO] [1789566093.896917046] [controller_manager]: Loading controller 'joint_state_broadcaster'
+[gz-1] [INFO] [1789566093.902463743] [controller_manager]: Controller 'joint_state_broadcaster' node arguments: --ros-args --params-file /home/lemma/so101_ws/src/so101_gazebo/config/controllers_effort_1k_gc.yaml -p use_sim_time:=true --param use_sim_time:=true 
+[spawner-5] [INFO] [1789566093.908559849] [spawner_joint_state_broadcaster]: Loaded joint_state_broadcaster
+[gz-1] [INFO] [1789566093.909149246] [controller_manager]: Configuring controller: 'joint_state_broadcaster'
+[gz-1] [INFO] [1789566093.909282952] [joint_state_broadcaster]: 'joints' or 'interfaces' parameter is empty. All available state interfaces will be published
+[gz-1] [INFO] [1789566093.915259207] [controller_manager]: Activating controllers: [ joint_state_broadcaster ]
+[gz-1] [INFO] [1789566095.883469683] [controller_manager]: Successfully switched controllers!
+[spawner-5] [INFO] [1789566095.886232359] [spawner_joint_state_broadcaster]: Configured and activated joint_state_broadcaster
+[INFO] [spawner-5]: process has finished cleanly [pid 73739]
+[INFO] [spawner-6]: process started with pid [73790]
+[INFO] [spawner-7]: process started with pid [73791]
+[spawner-7] [INFO] [1789566096.250146169] [spawner_gripper_controller]: waiting for service /controller_manager/list_controllers to become available...
+[gz-1] [INFO] [1789566096.582069181] [controller_manager]: Loading controller : 'gripper_controller' of type 'joint_trajectory_controller/JointTrajectoryController'
+[gz-1] [INFO] [1789566096.582102012] [controller_manager]: Loading controller 'gripper_controller'
+[gz-1] [INFO] [1789566096.584690671] [controller_manager]: Controller 'gripper_controller' node arguments: --ros-args --params-file /home/lemma/so101_ws/src/so101_gazebo/config/controllers_effort_1k_gc.yaml -p use_sim_time:=true --param use_sim_time:=true 
+[spawner-7] [INFO] [1789566096.590284767] [spawner_gripper_controller]: Loaded gripper_controller
+[gz-1] [INFO] [1789566096.672205676] [controller_manager]: Configuring controller: 'gripper_controller'
+[gz-1] [INFO] [1789566096.672300419] [gripper_controller]: No specific joint names are used for command interfaces. Using 'joints' parameter.
+[gz-1] [INFO] [1789566096.672319752] [gripper_controller]: Command interfaces are [position] and state interfaces are [position velocity].
+[gz-1] [INFO] [1789566096.672336990] [gripper_controller]: Using 'splines' interpolation method.
+[gz-1] [INFO] [1789566096.673830367] [gripper_controller]: Action status changes will be monitored at 20.00 Hz.
+[gz-1] [INFO] [1789566096.676088459] [gripper_controller]: Setting initial scaling factor to 1.000000
+[gz-1] [INFO] [1789566096.676098980] [gripper_controller]: No scaling interface set. This controller will not read speed scaling from the hardware.
+[gz-1] [INFO] [1789566096.677085603] [controller_manager]: Activating controllers: [ gripper_controller ]
+[gz-1] [INFO] [1789566096.678354589] [controller_manager]: Successfully switched controllers!
+[spawner-7] [INFO] [1789566096.680943633] [spawner_gripper_controller]: Configured and activated gripper_controller
+[spawner-6] [INFO] [1789566096.751656709] [spawner_gravity_compensation]: waiting for service /controller_manager/list_controllers to become available...
+[INFO] [spawner-7]: process has finished cleanly [pid 73791]
+[gz-1] [INFO] [1789566097.584266817] [controller_manager]: Loading controller : 'gravity_compensation' of type 'so101_gravity_comp/GravityCompensationController'
+[gz-1] [INFO] [1789566097.584300661] [controller_manager]: Loading controller 'gravity_compensation'
+[gz-1] [INFO] [1789566097.593714876] [controller_manager]: Controller 'gravity_compensation' node arguments: --ros-args --params-file /home/lemma/so101_ws/src/so101_gazebo/config/controllers_effort_1k_gc.yaml -p use_sim_time:=true --param use_sim_time:=true 
+[spawner-6] [INFO] [1789566097.598863467] [spawner_gravity_compensation]: Loaded gravity_compensation
+[gz-1] [INFO] [1789566097.599352217] [controller_manager]: Configuring controller: 'gravity_compensation'
+[gz-1] [INFO] [1789566097.599822066] [gravity_compensation]: 중력 보상 준비: 관절 5 개, 모델 nq=6, scale=1.000
+[gz-1] [INFO] [1789566097.600686659] [controller_manager]: Activating controllers: [ gravity_compensation ]
+[gz-1] [INFO] [1789566097.602113128] [controller_manager]: Successfully switched controllers!
+[spawner-6] [INFO] [1789566097.604681033] [spawner_gravity_compensation]: Configured and activated gravity_compensation
+[gz-1] [INFO] [1789566097.605043714] [controller_manager]: Loading controller : 'arm_controller' of type 'joint_trajectory_controller/JointTrajectoryController'
+[gz-1] [INFO] [1789566097.605066270] [controller_manager]: Loading controller 'arm_controller'
+[gz-1] [INFO] [1789566097.605185378] [controller_manager]: Controller 'arm_controller' node arguments: --ros-args --params-file /home/lemma/so101_ws/src/so101_gazebo/config/controllers_effort_1k_gc.yaml -p use_sim_time:=true --param use_sim_time:=true 
+[spawner-6] [INFO] [1789566097.612989782] [spawner_gravity_compensation]: Loaded arm_controller
+[gz-1] [INFO] [1789566097.613128827] [controller_manager]: Configuring controller: 'arm_controller'
+[gz-1] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[gz-1] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[gz-1] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[gz-1] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[gz-1] Using the legacy anti-windup technique is deprecated. This option will be removed by the ROS 2 Kilted Kaiju release.
+[gz-1] [INFO] [1789566097.613265265] [arm_controller]: Command interfaces are [effort] and state interfaces are [position velocity].
+[gz-1] [INFO] [1789566097.613274043] [arm_controller]: Using 'splines' interpolation method.
+[gz-1] [INFO] [1789566097.613827243] [arm_controller]: Action status changes will be monitored at 20.00 Hz.
+[gz-1] [INFO] [1789566097.614826475] [arm_controller]: No scaling interface set. This controller will not read speed scaling from the hardware.
+[gz-1] [INFO] [1789566097.616639388] [controller_manager]: Activating controllers: [ arm_controller ]
+[gz-1] [INFO] [1789566097.618457360] [controller_manager]: Successfully switched controllers!
+[spawner-6] [INFO] [1789566097.620916112] [spawner_gravity_compensation]: Configured and activated arm_controller
+[INFO] [spawner-6]: process has finished cleanly [pid 73790]
+[gz-1] [INFO] [1789566102.503884256] [arm_controller]: Received new action goal
+[gz-1] [INFO] [1789566102.503930433] [arm_controller]: Accepted new action goal
+[gz-1] [INFO] [1789566106.714396067] [arm_controller]: Goal reached, success!
+[gz-1] [INFO] [1789566114.459862844] [controller_manager]: Deactivating controllers: [ arm_controller ]
+[gz-1] [INFO] [1789566114.461172038] [controller_manager]: Requested controller switch from non-realtime loop
+[gz-1] [INFO] [1789566114.461229764] [controller_manager]: Successfully switched controllers!
+[robot_state_publisher-3] [INFO] [1789566120.997130053] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[parameter_bridge-2] [INFO] [1789566120.997222534] [rclcpp]: signal_handler(SIGINT/SIGTERM)
+[gz-1] [INFO] [1789566121.028033129] [controller_manager.pal_statistics]: Async messages lost 0
+[gz-1] [INFO] [1789566121.028075566] [controller_manager.pal_statistics]: publish_async_failures_ 0
+[gz-1] [INFO] [1789566121.029114564] [controller_manager.pal_statistics]: Async messages lost 0
+[gz-1] [INFO] [1789566121.029120694] [controller_manager.pal_statistics]: publish_async_failures_ 0
+[INFO] [robot_state_publisher-3]: process has finished cleanly [pid 73647]
+[INFO] [parameter_bridge-2]: process has finished cleanly [pid 73646]
+[INFO] [gz-1]: process has finished cleanly [pid 73645]

@@ -1,0 +1,41 @@
+==== /tf_static (parent -> child : xyz / rpy deg)
+  base_footprint -> base_link : (0.0, 0.0, 0.07) / (0.0, 0.0, 0.0)
+  base_link -> depth_cam : (0.0614, -0.0001, 0.0512) / (0.0, 0.0, 0.0)
+  base_link -> imu_link : (0.0, 0.0, 0.0) / (0.0, 0.0, -89.95)
+  base_link -> lidar_frame : (-0.0122, -0.0001, 0.0925) / (0.0, 0.0, 0.0)
+  depth_cam -> ascamera_camera_link_0 : (0.0, 0.0, 0.0) / (-89.95, -0.0, -89.95)
+  depth_cam -> ascamera_color_0 : (0.0, 0.0, 0.0) / (-89.95, -0.0, -89.95)
+==== /tf 동적 변환 (parent -> child : 개수)
+  ascamera_camera_link_0 -> ascamera_color_0 : 15956
+  base_link -> wheel_lb_Link : 6958
+  base_link -> wheel_lf_Link : 6958
+  base_link -> wheel_rb_Link : 6958
+  base_link -> wheel_rf_Link : 6958
+==== /odom_raw
+  frames: {('odom', 'base_footprint')}  rate Hz: 48.61
+  pose cov diag: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]  twist cov diag: [0.001, 0.001, 1000000.0, 1000000.0, 1000000.0, 1000.0]
+  첫 pose (x,y,yaw): [  0.239  -0.413 -53.6  ]  마지막 pose: [-0.068 -1.35  56.66 ]
+  x 범위: [-0.519  0.569]  y 범위: [-1.35  -0.267]
+  twist vx/vy/wz 최소: [ 0.   0.  -0.4]  최대: [0.1 0.  0.4]
+  vy 가 0이 아닌 비율: 0.0
+==== /imu_raw
+  frames: {'imu_link'}  rate Hz: 48.47  orientation_cov[0] 값: {0.01}
+  orientation 전부 0 인가: True  첫 쿼터니언: [0. 0. 0. 0.]
+  가속도 평균 (x,y,z): [-0.346  0.471  9.504]  크기: 9.522
+  평균 중력벡터로 본 기울기 roll/pitch deg: 2.84 2.08
+  gyro_z 평균/표준편차: 0.00739 0.16045
+==== /scan_raw
+  frames: {'lidar_frame'}  rate Hz: 9.92  meta: {'angle_min': 0.0, 'angle_max': 360.0, 'inc_deg': 0.72, 'n': 501, 'range_min': 0.019999999552965164, 'range_max': 25.0, 'scan_time': 0.09999823570251465}
+  유효 거리 비율 평균: 0.911
+==== /cmd_vel
+  vx/vy/wz 최소: [ 0.   0.  -0.4]  최대: [0.1 0.  0.4]
+  vy 명령이 0이 아닌 비율: 0.0
+==== URDF joint (센서·베이스 관련)
+  imu_joint [fixed] base_link -> imu_link xyz=0 0 0 rpy_deg=[0.0, 0.0, -89.95]
+  base_footprint_to_base_link [fixed] base_footprint -> base_link xyz=0 0 0.07 rpy_deg=[0.0, 0.0, 0.0]
+  wheel_lf_Joint [continuous] base_link -> wheel_lf_Link xyz=0.067052 0.07591 -0.018408 rpy_deg=[0.0, 0.0, 0.0]
+  wheel_rf_Joint [continuous] base_link -> wheel_rf_Link xyz=0.067052 -0.07591 -0.018408 rpy_deg=[0.0, 0.0, 0.0]
+  wheel_lb_Joint [continuous] base_link -> wheel_lb_Link xyz=-0.06764 0.07591 -0.018414 rpy_deg=[0.0, 0.0, 0.0]
+  wheel_rb_Joint [continuous] base_link -> wheel_rb_Link xyz=-0.067621 -0.07591 -0.018408 rpy_deg=[0.0, 0.0, 0.0]
+  cam_Joint [fixed] base_link -> depth_cam xyz=0.061376 -0.00013463 0.051154 rpy_deg=[0.0, 0.0, 0.0]
+  lidar_Joint [fixed] base_link -> lidar_frame xyz=-0.012242 -8.533E-05 0.092501 rpy_deg=[0.0, 0.0, 0.0]

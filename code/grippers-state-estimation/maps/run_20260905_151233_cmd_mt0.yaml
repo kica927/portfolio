@@ -1,0 +1,7 @@
+image: run_20260905_151233_cmd_mt0.pgm
+mode: trinary
+resolution: 0.020
+origin: [-4.564, -3.969, 0]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196

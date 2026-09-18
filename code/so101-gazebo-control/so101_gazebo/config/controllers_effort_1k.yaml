@@ -1,0 +1,30 @@
+# 초기 PD 게인: 관절별 유효 관성 I 를 URDF 질량·링크 길이로 어림하고
+# 고유진동수 wn=15 rad/s, 감쇠비 0.8 을 목표로 P = I*wn^2, D = 2*0.8*wn*I 로 정했다.
+# 적분 게인은 0 — 중력에 의한 정상상태 오차를 먼저 측정하기 위해서다.
+controller_manager:
+  ros__parameters:
+    update_rate: 1000
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    gripper_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+arm_controller:
+  ros__parameters:
+    joints: [shoulder_pan, shoulder_lift, elbow_flex, wrist_flex, wrist_roll]
+    command_interfaces: [effort]
+    state_interfaces: [position, velocity]
+    gains:
+      shoulder_pan:  {p: 5.0,  i: 0.0, d: 0.5}
+      shoulder_lift: {p: 5.0,  i: 0.0, d: 0.5}
+      elbow_flex:    {p: 2.0,  i: 0.0, d: 0.2}
+      wrist_flex:    {p: 0.15, i: 0.0, d: 0.015}
+      wrist_roll:    {p: 0.03, i: 0.0, d: 0.003}
+
+gripper_controller:
+  ros__parameters:
+    joints: [gripper]
+    command_interfaces: [position]
+    state_interfaces: [position, velocity]

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>so101_gravity_comp</name>
+  <version>0.1.0</version>
+  <description>Chainable ros2_control controller that adds Pinocchio gravity torque g(q) to upstream effort references.</description>
+  <maintainer email="xenon.6830@gmail.com">lemma</maintainer>
+  <license>MIT</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>controller_interface</depend>
+  <depend>hardware_interface</depend>
+  <depend>pluginlib</depend>
+  <depend>rclcpp</depend>
+  <depend>rclcpp_lifecycle</depend>
+  <depend>pinocchio</depend>
+  <depend>control_msgs</depend>
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

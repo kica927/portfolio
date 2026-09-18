@@ -5,7 +5,7 @@
 > ⚠️ **코드는 공개하지 않습니다.** 재직 중 작성한 회사 자산이고, 실제 망 구성과
 > IP 가 포함되어 있습니다. 이 문서는 **무엇을 했고 무엇을 배웠는가**의 기록이며,
 > 같은 문제를 clean-room 으로 다시 푸는 것은 별도 프로젝트
-> [`udp-network-lab`](../plans/roadmap.md#udp-network-lab) 으로 분리했습니다.
+> [`udp-network-lab`](udp-network-lab.md) 으로 분리했습니다.
 
 ---
 

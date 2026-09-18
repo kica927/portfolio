@@ -1,0 +1,4 @@
+기준 A = slam_run_20260905_150105_cmd_mt0_traj.csv · 비교 구간 544.5s
+비교 대상                             ATE(m)    RPE1s 방향°    RPE5s 방향°     방향RMSE°      최종방향°
+ekfB_prior_mt0                     0.058         3.42         3.29       12.14      19.60
+cmd_prior_default_threshold        0.176         5.92        12.67       19.94      35.49

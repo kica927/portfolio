@@ -1,0 +1,61 @@
+== [effort_moveit_pd] 컨트롤러 준비: 1
+gripper_controller      joint_trajectory_controller/JointTrajectoryController  active
+arm_controller          joint_trajectory_controller/JointTrajectoryController  active
+joint_state_broadcaster joint_state_broadcaster/JointStateBroadcaster          active
+-- move_group 준비: 1
+  [A] MoveIt 결과 코드 1 · 계획 0.00s · 궤적 점 17개 · 궤적 길이 1.56s
+  [B] MoveIt 결과 코드 1 · 계획 0.00s · 궤적 점 21개 · 궤적 길이 1.93s
+  기록 5514행 · 기록 주기 1000.2Hz
+  [전체] 0.0~1000000000.0s
+                             shoulder_pan  shoulder_lift     elbow_flex     wrist_flex     wrist_roll
+    평균 오차 (mrad)                    -0.65         -44.55        -176.69        -338.29          -9.87
+    RMS 오차 (mrad)                    3.71          55.78         180.39         373.42          49.12
+    최대 |오차| (mrad)                  14.81         106.32         206.93         532.66         217.46
+    최대 |출력|                         0.111          0.615          0.598          0.080          0.010
+    최대 |속도| (rad/s)                 1.436          1.239          1.838          2.375          2.485
+  마지막 피드백 위치 (rad): -0.595 -1.084 +1.210 +0.724 -0.521
+-- move_group 로그 경고/오류
+      2 [move_group-1] [WARN]  [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+      2 [move_group-1] [WARN]  [move_group.moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
+      2 [move_group-1] [WARN]  [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as start state in the motion planning request
+      2 [move_group-1] [WARN]  [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+      1 [move_group-1] [WARN]  [move_group.moveit.moveit.ros.occupancy_map_monitor]: Resolution not specified for Octomap. Assuming resolution = 0.1 instead
+      1 [move_group-1] [WARN]  [kdl_parser]: The root link base_link has an inertia specified in the URDF, but KDL does not support a root link with an inertia.  As a workaround, you can add an extra dummy link to your URDF.
+      1 [move_group-1] [ERROR]  [move_group.moveit.moveit.ros.occupancy_map_monitor]: No 3D sensor plugin(s) defined for octomap updates
+      1 [ERROR] [move_group-1]: process has died [pid 81725, exit code -11, cmd '/opt/ros/jazzy/lib/moveit_ros_move_group/move_group --ros-args --params-file /tmp/launch_params_x6ftom6_ --params-file /tmp/launch_params_zmdfyv1n'].
+== [effort_moveit_pd] launch 로그의 경고/오류
+      2 [gz-1] [INFO]  [controller_manager.pal_statistics]: publish_async_failures_ 0
+      1 [gz-1] [WARN]  [gz_ros_control]: Waiting RM to load and initialize hardware...
+      1 [gz-1] [WARN]  [controller_manager]: Component 'so101_gz' does not have read or write statistics initialized, skipping registration.
+      1 [gz-1] [WARN]  [controller_manager.hardware_component.system.so101_gz]: Executor is not available during hardware component initialization for 'so101_gz'. Skipping node creation!
+== [effort_moveit_ff_full] 컨트롤러 준비: 1
+gripper_controller      joint_trajectory_controller/JointTrajectoryController  active
+arm_controller          joint_trajectory_controller/JointTrajectoryController  active
+gravity_compensation    so101_gravity_comp/GravityCompensationController       active
+joint_state_broadcaster joint_state_broadcaster/JointStateBroadcaster          active
+-- move_group 준비: 1
+  [A] MoveIt 결과 코드 1 · 계획 0.00s · 궤적 점 17개 · 궤적 길이 1.55s
+  [B] MoveIt 결과 코드 1 · 계획 0.00s · 궤적 점 21개 · 궤적 길이 1.93s
+  기록 4899행 · 기록 주기 1000.2Hz
+  [전체] 0.0~1000000000.0s
+                             shoulder_pan  shoulder_lift     elbow_flex     wrist_flex     wrist_roll
+    평균 오차 (mrad)                     0.01          -0.03           0.27           1.35           0.01
+    RMS 오차 (mrad)                    0.54           0.13           1.23           6.00           0.24
+    최대 |오차| (mrad)                   1.47           0.71           4.88          23.89           1.01
+    최대 |출력|                         0.008          0.003          0.011          0.004          0.000
+    최대 |속도| (rad/s)                 1.431          1.013          1.141          0.769          1.024
+  마지막 피드백 위치 (rad): -0.602 -1.101 +0.997 +0.202 -0.501
+-- move_group 로그 경고/오류
+      2 [move_group-1] [WARN]  [move_group.moveit.moveit.ros.validate_workspace_bounds]: It looks like the planning volume was not specified. Using default values.
+      2 [move_group-1] [WARN]  [move_group.moveit.moveit.ros.planning_pipeline]: The planner plugin did not fill out the 'planner_id' field of the MotionPlanResponse. Setting it to the planner ID name of the MotionPlanRequest assuming that the planner plugin does warn you if it does not use the requested planner.
+      2 [move_group-1] [WARN]  [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as start state in the motion planning request
+      2 [move_group-1] [WARN]  [move_group.moveit.moveit.ros.move_group.capability]: Execution of motions should always start at the robot's current state. Ignoring the state supplied as difference in the planning scene diff
+      1 [move_group-1] [WARN]  [move_group.moveit.moveit.ros.occupancy_map_monitor]: Resolution not specified for Octomap. Assuming resolution = 0.1 instead
+      1 [move_group-1] [WARN]  [kdl_parser]: The root link base_link has an inertia specified in the URDF, but KDL does not support a root link with an inertia.  As a workaround, you can add an extra dummy link to your URDF.
+      1 [move_group-1] [ERROR]  [move_group.moveit.moveit.ros.occupancy_map_monitor]: No 3D sensor plugin(s) defined for octomap updates
+      1 [ERROR] [move_group-1]: process has died [pid 82090, exit code -11, cmd '/opt/ros/jazzy/lib/moveit_ros_move_group/move_group --ros-args --params-file /tmp/launch_params_n68knfoz --params-file /tmp/launch_params_esjhac70'].
+== [effort_moveit_ff_full] launch 로그의 경고/오류
+      2 [gz-1] [INFO]  [controller_manager.pal_statistics]: publish_async_failures_ 0
+      1 [gz-1] [WARN]  [gz_ros_control]: Waiting RM to load and initialize hardware...
+      1 [gz-1] [WARN]  [controller_manager]: Component 'so101_gz' does not have read or write statistics initialized, skipping registration.
+      1 [gz-1] [WARN]  [controller_manager.hardware_component.system.so101_gz]: Executor is not available during hardware component initialization for 'so101_gz'. Skipping node creation!

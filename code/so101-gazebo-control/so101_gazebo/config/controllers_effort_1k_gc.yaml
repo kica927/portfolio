@@ -1,0 +1,44 @@
+# 1kHz PD(JTC) 뒤에 중력 보상 컨트롤러를 체인으로 연결한다.
+# JTC 가 계산한 토크 reference 에 gravity_compensation 이 scale * g(q) 를 더해 관절 effort 로 쓴다.
+# PD 게인은 controllers_effort_1k.yaml 과 같다 — 차이는 중력 보상 유무뿐이다.
+controller_manager:
+  ros__parameters:
+    update_rate: 1000
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    gravity_compensation:
+      type: so101_gravity_comp/GravityCompensationController
+    arm_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    gripper_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+gravity_compensation:
+  ros__parameters:
+    joints: [shoulder_pan, shoulder_lift, elbow_flex, wrist_flex, wrist_roll]
+    extra_state_joints: [gripper]
+    scale: 1.0
+
+arm_controller:
+  ros__parameters:
+    joints: [shoulder_pan, shoulder_lift, elbow_flex, wrist_flex, wrist_roll]
+    command_joints:
+      - gravity_compensation/shoulder_pan
+      - gravity_compensation/shoulder_lift
+      - gravity_compensation/elbow_flex
+      - gravity_compensation/wrist_flex
+      - gravity_compensation/wrist_roll
+    command_interfaces: [effort]
+    state_interfaces: [position, velocity]
+    gains:
+      shoulder_pan:  {p: 5.0,  i: 0.0, d: 0.5}
+      shoulder_lift: {p: 5.0,  i: 0.0, d: 0.5}
+      elbow_flex:    {p: 2.0,  i: 0.0, d: 0.2}
+      wrist_flex:    {p: 0.15, i: 0.0, d: 0.015}
+      wrist_roll:    {p: 0.03, i: 0.0, d: 0.003}
+
+gripper_controller:
+  ros__parameters:
+    joints: [gripper]
+    command_interfaces: [position]
+    state_interfaces: [position, velocity]

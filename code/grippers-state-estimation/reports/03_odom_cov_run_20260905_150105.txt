@@ -1,0 +1,6 @@
+==== run_20260905_150105
+  odom 속도 상태 / twist 공분산 yaw_rate / twist 공분산 vx / pose 공분산 yaw : 개수
+    정지  1e-09 / 1e-09 / 1e-09 : 15217
+    직진  1000 / 0.001 / 1000 : 5076
+    회전  1000 / 0.001 / 1000 : 6294
+  IMU 공분산 (angular_velocity z, linear_acceleration x) : 개수 -> {(0.01, 0.0004): 26573}

@@ -1,0 +1,27 @@
+==== 값의 종류
+  cmd_vel 고유값 개수: 4
+  odom twist 고유값 개수: 4
+  odom twist 고유값 예시: [(0.0, -0.4), (0.0, 0.0), (0.0, 0.4), (0.1, 0.0)]
+  odom twist 가 명령값 집합 안에 있는 비율: 1.0
+==== 시간 지연별 일치율 (odom 시각보다 lag 초 이전의 최신 명령과 같은가)
+  lag 0.00s : 0.9987
+  lag 0.02s : 0.9391
+  lag 0.05s : 0.8556
+  lag 0.10s : 0.6933
+  lag 0.15s : 0.7137
+  lag 0.20s : 0.7495
+  lag 0.30s : 0.8140
+  lag 0.50s : 0.7467
+  최고 일치: (0.9987096774193548, 0.0)
+==== odom 자세 변화 vs odom twist 적분
+  odom yaw 총변화(rad): 1.6942  twist 적분(rad): 1.6945
+  누적 회전량 |dyaw| 합 — pose: 56.668  twist: 56.679
+==== IMU 자이로 z 적분 vs odom yaw
+  정지 명령 구간 샘플 수: 16821  자이로 z 평균(바이어스): 0.00449  표준편차: 0.1325
+  IMU yaw 총변화(rad, 바이어스 보정): 1.317  보정 전: 4.0877
+  누적 회전량 |dyaw| 합 — IMU: 53.82
+  회전 중(|wz|>0.2) 자이로/odom 비율 중앙값: 0.369  샘플: 6871
+==== /joint_states
+  이름: ['wheel_lf_Joint', 'wheel_rf_Joint', 'wheel_lb_Joint', 'wheel_rb_Joint']  메시지: 12335  velocity 비어있음: True
+  position 첫값: [0. 0. 0. 0.]  마지막: [0. 0. 0. 0.]
+  position 이 한 번이라도 변하는 관절: []

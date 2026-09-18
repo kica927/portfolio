@@ -1,0 +1,104 @@
+== [effort_step_B_pd] 컨트롤러 준비: 1
+arm_controller          joint_trajectory_controller/JointTrajectoryController  active
+gripper_controller      joint_trajectory_controller/JointTrajectoryController  active
+joint_state_broadcaster joint_state_broadcaster/JointStateBroadcaster          active
+  결과 코드 0 'Goal successfully reached!'
+  시뮬 시간 7.03s / 실제 시간 14.60s → 속도 배율(RTF) 약 0.481
+  기록 7029행 · 기록 주기 1000.1Hz
+  [정상상태_A] 2.2~3.0s
+                             shoulder_pan  shoulder_lift     elbow_flex     wrist_flex     wrist_roll
+    평균 오차 (mrad)                    -0.00         -29.71        -183.47        -292.16         -14.33
+    RMS 오차 (mrad)                    0.00          29.71         183.47         292.16          14.33
+    최대 |오차| (mrad)                   0.00          29.71         183.47         292.19          14.34
+    최대 |출력|                         0.000          0.149          0.367          0.044          0.000
+    최대 |속도| (rad/s)                 0.000          0.000          0.000          0.000          0.000
+  [정상상태_B] 5.7~6.5s
+                             shoulder_pan  shoulder_lift     elbow_flex     wrist_flex     wrist_roll
+    평균 오차 (mrad)                    -0.00         -19.79        -206.62        -525.00          25.50
+    RMS 오차 (mrad)                    0.00          19.79         206.62         525.00          25.50
+    최대 |오차| (mrad)                   0.00          19.79         206.62         525.00          25.51
+    최대 |출력|                         0.000          0.099          0.413          0.079          0.001
+    최대 |속도| (rad/s)                 0.000          0.000          0.000          0.000          0.000
+  [전체] 0.0~6.5s
+                             shoulder_pan  shoulder_lift     elbow_flex     wrist_flex     wrist_roll
+    평균 오차 (mrad)                     0.00         -23.82        -176.10        -362.88           2.05
+    RMS 오차 (mrad)                    2.32          25.67         182.82         391.47          17.31
+    최대 |오차| (mrad)                   9.60         106.32         206.77         532.66          25.51
+    최대 |출력|                         0.063          0.537          0.414          0.080          0.001
+    최대 |속도| (rad/s)                 1.758          1.749          1.459          0.678          1.274
+  마지막 피드백 위치 (rad): -0.600 -1.080 +1.207 +0.725 -0.526
+== [effort_step_B_pd] launch 로그의 경고/오류
+      2 [gz-1] [INFO]  [controller_manager.pal_statistics]: publish_async_failures_ 0
+      1 [gz-1] [WARN]  [gz_ros_control]: Waiting RM to load and initialize hardware...
+      1 [gz-1] [WARN]  [controller_manager]: Component 'so101_gz' does not have read or write statistics initialized, skipping registration.
+      1 [gz-1] [WARN]  [controller_manager.hardware_component.system.so101_gz]: Executor is not available during hardware component initialization for 'so101_gz'. Skipping node creation!
+== [effort_step_B_pid] 컨트롤러 준비: 1
+gripper_controller      joint_trajectory_controller/JointTrajectoryController  active
+arm_controller          joint_trajectory_controller/JointTrajectoryController  active
+joint_state_broadcaster joint_state_broadcaster/JointStateBroadcaster          active
+  결과 코드 0 'Goal successfully reached!'
+  시뮬 시간 7.09s / 실제 시간 14.70s → 속도 배율(RTF) 약 0.482
+  기록 7093행 · 기록 주기 1000.1Hz
+  [정상상태_A] 2.2~3.0s
+                             shoulder_pan  shoulder_lift     elbow_flex     wrist_flex     wrist_roll
+    평균 오차 (mrad)                     0.10          -1.21          -4.41         -31.78          -1.53
+    RMS 오차 (mrad)                    0.12           1.30           4.77          33.13           1.59
+    최대 |오차| (mrad)                   0.24           2.24           8.46          50.38           2.41
+    최대 |출력|                         0.000          0.196          0.424          0.089          0.001
+    최대 |속도| (rad/s)                 0.001          0.004          0.017          0.062          0.003
+  [정상상태_B] 5.7~6.5s
+                             shoulder_pan  shoulder_lift     elbow_flex     wrist_flex     wrist_roll
+    평균 오차 (mrad)                    -0.07           0.04          -0.19          -2.23           0.42
+    RMS 오차 (mrad)                    0.08           0.05           0.21           2.52           0.50
+    최대 |오차| (mrad)                   0.17           0.12           0.42           4.96           1.12
+    최대 |출력|                         0.000          0.130          0.449          0.117          0.001
+    최대 |속도| (rad/s)                 0.000          0.000          0.001          0.012          0.003
+  [전체] 0.0~6.5s
+                             shoulder_pan  shoulder_lift     elbow_flex     wrist_flex     wrist_roll
+    평균 오차 (mrad)                     0.00           6.29           0.12           0.19           2.92
+    RMS 오차 (mrad)                    2.31          23.40          49.44         204.10          11.56
+    최대 |오차| (mrad)                  10.00         107.83         199.13         937.78          30.72
+    최대 |출력|                         0.062          1.077          0.905          0.237          0.001
+    최대 |속도| (rad/s)                 1.762          1.246          2.735          6.064          1.290
+  마지막 피드백 위치 (rad): -0.600 -1.100 +1.000 +0.200 -0.500
+== [effort_step_B_pid] launch 로그의 경고/오류
+      2 [gz-1] [INFO]  [controller_manager.pal_statistics]: publish_async_failures_ 0
+      1 [gz-1] [WARN]  [gz_ros_control]: Waiting RM to load and initialize hardware...
+      1 [gz-1] [WARN]  [controller_manager]: Component 'so101_gz' does not have read or write statistics initialized, skipping registration.
+      1 [gz-1] [WARN]  [controller_manager.hardware_component.system.so101_gz]: Executor is not available during hardware component initialization for 'so101_gz'. Skipping node creation!
+== [effort_step_B_gc] 컨트롤러 준비: 1
+arm_controller          joint_trajectory_controller/JointTrajectoryController  active
+gravity_compensation    so101_gravity_comp/GravityCompensationController       active
+gripper_controller      joint_trajectory_controller/JointTrajectoryController  active
+joint_state_broadcaster joint_state_broadcaster/JointStateBroadcaster          active
+  결과 코드 0 'Goal successfully reached!'
+  시뮬 시간 7.09s / 실제 시간 14.75s → 속도 배율(RTF) 약 0.481
+  기록 7095행 · 기록 주기 1000.1Hz
+  [정상상태_A] 2.2~3.0s
+                             shoulder_pan  shoulder_lift     elbow_flex     wrist_flex     wrist_roll
+    평균 오차 (mrad)                    -0.00           0.00           0.00           0.02           0.00
+    RMS 오차 (mrad)                    0.00           0.00           0.02           0.08           0.00
+    최대 |오차| (mrad)                   0.00           0.01           0.06           0.27           0.02
+    최대 |출력|                         0.000          0.000          0.000          0.000          0.000
+    최대 |속도| (rad/s)                 0.000          0.000          0.000          0.002          0.000
+  [정상상태_B] 5.7~6.5s
+                             shoulder_pan  shoulder_lift     elbow_flex     wrist_flex     wrist_roll
+    평균 오차 (mrad)                     0.00          -0.00          -0.00          -0.00           0.00
+    RMS 오차 (mrad)                    0.00           0.00           0.00           0.01           0.00
+    최대 |오차| (mrad)                   0.00           0.00           0.01           0.04           0.00
+    최대 |출력|                         0.000          0.000          0.000          0.000          0.000
+    최대 |속도| (rad/s)                 0.000          0.000          0.000          0.000          0.000
+  [전체] 0.0~6.5s
+                             shoulder_pan  shoulder_lift     elbow_flex     wrist_flex     wrist_roll
+    평균 오차 (mrad)                     0.00          -0.26           0.06           1.45          -0.15
+    RMS 오차 (mrad)                    2.75           0.70           3.24          16.59           1.94
+    최대 |오차| (mrad)                  10.82           2.35          14.23          70.92           6.44
+    최대 |출력|                         0.070          0.015          0.036          0.013          0.000
+    최대 |속도| (rad/s)                 1.762          1.513          1.681          1.213          1.232
+  마지막 피드백 위치 (rad): -0.600 -1.100 +1.000 +0.200 -0.500
+== [effort_step_B_gc] launch 로그의 경고/오류
+      1 [gz-1] [WARN]  [gz_ros_control]: Waiting RM to load and initialize hardware...
+      1 [gz-1] [WARN]  [controller_manager]: Component 'so101_gz' does not have read or write statistics initialized, skipping registration.
+      1 [gz-1] [WARN]  [controller_manager.hardware_component.system.so101_gz]: Executor is not available during hardware component initialization for 'so101_gz'. Skipping node creation!
+      1 [gz-1] [INFO]  [controller_manager.pal_statistics]: publish_async_failures_ 1
+      1 [gz-1] [INFO]  [controller_manager.pal_statistics]: publish_async_failures_ 0

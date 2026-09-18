@@ -72,6 +72,16 @@ arm64 에서 도는 것을 확인했습니다.
 
 → 코드 [`kica927/grippers-host-mac`](https://github.com/kica927/grippers-host-mac)
 
+### 🧭 [grippers 상태 추정 — 녹화 bag 으로 센서 퓨전과 SLAM 다시 보기](projects/grippers-state-estimation.md)
+*2026-09 · 단독 · grippers 확장(오프라인, 실기 없음)*
+
+하드웨어 종료 전 녹화한 실기 bag 두 개로 오도메트리 · IMU · LiDAR 를 재분석. 명령 오도메트리의
+"명령=실제" 가정은 회전을 **R² −0.16** 으로 설명하지 못하고, 식별한 회전 모델은 **R² 0.68** (교차검증).
+EKF 를 그대로 붙이면 **드라이버의 "정지=확실" 공분산**이 회전을 0 으로 누르고, 보정 안 한 자이로
+바이어스가 **117°** 를 흘린다 — 바이어스를 빼자 IMU 와 **1° 이내**. SLAM 기준 궤적이 사전 추정값에
+끌려가는 정도부터 재고, 그보다 큰 차이만 결론으로 남겼다. 식별 모델 위 조향 비교에서는 **데드밴드 0.35 가
+bang-bang · 비례 · MPC 의 차이를 지운다**는 것을 보였다. *(정답 위치 없음 · LiDAR 기울기 판정 보류)*
+
 ### 🏎️ [Immortan — 자율주행 대회 🥇 1등](projects/immortan-self-driving.md)
 *2026 · 팀 6인 · 과정 내 대회*
 
@@ -128,6 +138,15 @@ mock 으로 도는 MoveIt 을 **실물 SO-ARM101** 로 잇는 ros2_control `Syst
 Feetech STS3215 half-duplex UART 를 termios 로 직접 포팅(PING/READ/WRITE · rad↔counts ·
 on_activate 토크ON+현재위치 초기화). **데스크탑 colcon 빌드 성공** · mock↔실물 xacro 전환.
 *(실물 구동은 하드웨어 마감으로 미검증 — 브링업 체크리스트를 한계로 명시.)*
+
+### ⚙️ [SO-101 Gazebo 제어 — 위치 제어에서 중력 보상까지](projects/so101-gazebo-control.md)
+*2026-09 · 단독 · 로봇팔 트랙 확장(물리 시뮬레이션 제어)*
+
+mock 에서는 생기지 않던 제어 문제를 Gazebo 토크 제어로 측정. 100Hz PD 의 **49.96Hz 발산**을
+관절 단독 모델은 못 맞히고 **5관절 결합 이산 모델**이 맞혔다. Pinocchio 로 예측한 중력 처짐이
+실측과 **소수점 둘째 자리까지 일치**. 직접 만든 **C++ chainable 중력 보상 컨트롤러**로 wrist 이동 중
+최대 오차 **533 → 71 mrad**(PID 는 938), computed torque 로 확장하자 **모든 관절 1 mrad 미만**(남은 오차는
+관성 몫, 코리올리는 무시 가능), MoveIt 계획 궤적도 이 체인으로 실행(wrist 최대 533 → 24 mrad). 컨트롤러 전환 순간 **1ms 토크 누락**(5회 중 4회)도 찾아 모델로 정량 설명. *(시뮬레이션 결과 — 실물 STS3215 는 토크 명령 불가, 한계로 명시.)*
 
 ### 🧠 [SmolVLA — Intel Arc(XPU)에서 VLA 파인튜닝](projects/smolvla-xpu.md)
 *2026 · 단독 · 로봇팔 트랙 확장(오프라인)*
@@ -220,8 +239,8 @@ F2 before/after: 공격 통과 **OLD 2/2 → NEW 0/2** · Atheris 1,900만+ · l
 
 UDP · 로봇 · **임베디드**가 한 보안 줄기로 닫히고, 안전지연·통신은 곡선으로 채웠습니다.
 
-전체 계획은 [`plans/roadmap.md`](plans/roadmap.md) · [`plans/robosec/`](plans/robosec/) 에
-있습니다. 하드웨어 접근이 2026-09-08 에 끝나므로, 이후 실험은 **종료 전 녹화한 실기
+RoboSec 의 위협 모델·안전 속성은 [`plans/robosec/`](plans/robosec/) 에 있습니다.
+하드웨어 접근이 2026-09-08 에 끝나므로, 이후 실험은 **종료 전 녹화한 실기
 궤적을 정답지로 삼는** 모델 기반 구성으로 갑니다.
 
 ---
@@ -260,7 +279,7 @@ Git · pytest · CI · GDB · 계측 기반 디버깅
 ```
 
 **아직 쓰지 않은 도구는 여기 적지 않습니다.** UBSan · Ghidra 는
-[로드맵](plans/roadmap.md)의 일정에 있고, 실제로 쓴 뒤에 올립니다. libFuzzer·AFL++·ASan 은
+아직 안 썼고, 실제로 쓴 뒤에 올립니다. libFuzzer·AFL++·ASan 은
 [udp-network-lab](projects/udp-network-lab.md) 에서 실제로 썼습니다(각각 1,302만·735만 회, 크래시 0).
 
 ---
